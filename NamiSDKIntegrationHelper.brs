@@ -18,9 +18,9 @@ end sub
 
 sub setupWrapperSDK()
     ' Production and staging appPlatformId are set from the appData.json
-    appPlatformId = m.global.appPlatformIdProduction
-    if m.global.environment = "staging"
-        appPlatformId = m.global.appPlatformIdStaging
+    appPlatformId = m.global.namiAppPlatformIdProduction
+    if m.global.namiEnvironment = "staging"
+        appPlatformId = m.global.namiAppPlatformIdStaging
     end if
 
     ' Create NamiConfiguration object and configure it with required data
@@ -28,7 +28,7 @@ sub setupWrapperSDK()
     m.namiConfig.callFunc("configuration", appPlatformId)
     m.namiConfig.logLevel = "debug"
 
-    if m.global.environment = "staging"
+    if m.global.namiEnvironment = "staging"
         m.namiConfig.namiCommands = ["useStagingAPI"]
     end if  
 
@@ -44,7 +44,7 @@ sub setupWrapperSDK()
     m.namiPaywallManager = m.namiSDK.createChild("namiSDK:NamiPaywallManager")
     m.namiEntitlementManager = m.namiSDK.createChild("namiSDK:NamiEntitlementManager")
 
-    ' As of now, we are not storing the api response in cache, so we will wait for the initial
+    ' As of now, we are not storing the api response in cache, so we will wait for the inital
     ' campaigns and paywall data to be received and then display them on screen.
     m.nami.observeField("isInitialDataLoaded", "OnSDKReadyWithData")
 end sub
