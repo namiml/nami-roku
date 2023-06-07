@@ -7,7 +7,7 @@
 Nami is on a mission to help you grow your app business using IAPs and subscriptions.
 Go beyond implementing Roku Pay and focus on results with:
 
-* Growing library of smart paywall templates to choose from, implemented natively using UIKit and SwiftUI
+* Growing library of smart paywall templates to choose from, optimized for Roku
 * Paywall CMS so you can make change instantly, without submitting an app update
 * Experimentation engine to run paywall A/B tests so you can improve your conversion rates
 * Built-in IAP & subscription management and analytics, so you don't need another solution
