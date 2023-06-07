@@ -44,7 +44,7 @@ sub setupWrapperSDK()
     m.namiPaywallManager = m.namiSDK.createChild("namiSDK:NamiPaywallManager")
     m.namiEntitlementManager = m.namiSDK.createChild("namiSDK:NamiEntitlementManager")
 
-    ' As of now, we are not storing the api response in cache, so we will wait for the inital
+    ' As of now, we are not storing the api response in cache, so we will wait for the initial
     ' campaigns and paywall data to be received and then display them on screen.
     m.nami.observeField("isInitialDataLoaded", "OnSDKReadyWithData")
 end sub
