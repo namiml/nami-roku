@@ -1,0 +1,6 @@
+{
+  "namiSDKPath": "pkg:/source/lib/nami_sdk.pkg",
+  "namiAppPlatformIdProduction": "YOUR_PROD_ROKU_NAMI_APP_PLATFORM_ID",
+  "namiAppPlatformIdStaging": "YOUR_STAGING_ROKU_NAMI_APP_PLATFORM_ID",
+  "namiEnvironment": "staging"
+}
