@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="ContentView" extends="Group">
+  <script type="text/brightscript" uri="pkg:/components/ContentView.brs" />
+
+  <children>
+    <!-- TODO : RSS : Add the tabbar for the switching among campaign, profile and entitlements screens -->
+    <CampaignView id="campaignViewControl" visible="false"/>
+
+    <!-- TODO : RSS : Implement the ProfileView and EntitlementView -->
+    <!-- <ProfileView id="profileViewControl" visible="false"/> -->
+    <!-- <EntitlementView id="entitlementViewControl" visible="false"/> -->
+  </children>
+</component>

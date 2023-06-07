@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="MainScene" extends="Scene">
+
+  <script type="text/brightscript" uri="pkg:/components/MainScene.brs" />
+  <script type="text/brightscript" uri="pkg:/components/NamiSDKIntegrationHelper.brs" />
+
+  <interface>
+    <field id="paywallScreenDismissed" type="boolean" value="false" alwaysNotify="true" />
+
+    <function name="onPaywallDismissed" />
+    <function name="showLoader" />
+    <function name="hideLoader" />
+  </interface>
+
+  <children>
+      <Rectangle color="#000000" width="1920" height="1080"/>
+      <ContentView id="contentViewControl" visible="false" translation="[0, 0]"/>
+      <BusySpinner id="loader" translation="[860,420]" control="start" clockwise="true" spinInterval="0.8"/>
+  </children>
+</component>

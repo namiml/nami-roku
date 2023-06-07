@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="NamiDataSource" extends="Group">
+    <script type="text/brightscript" uri="pkg:/components/NamiDataSource.brs" />
+
+    <interface>
+        <field id="isLoggedIn" type="boolean" />
+        <field id="loggedInId" type="string" />
+        <field id="deviceId" type="string" />
+        <field id="showLinkedPaywall" type="boolean" />
+        <field id="activeEntitlements" type="array" />
+        <field id="journeyState" type="node" />
+        <field id="campaigns" type="array" />
+        <field id="sku" type="node"/>
+
+        <field id="paywallScreenDismissed" type="boolean" value="false" alwaysNotify="true" />
+
+        <function name="registerBuySkuHandlerCallback" />
+        <function name="onPaywallDismissed" />
+    </interface>
+</component>
