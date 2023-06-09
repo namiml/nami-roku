@@ -13,7 +13,7 @@ sub onSDKLoadStatusChanged(event as dynamic)
     if loadStatus = "ready"
         m.namiSDK.unobserveField("loadStatus")
         setupWrapperSDK()
-        initialize()
+        ' initialize()
     end if
 end sub
 
