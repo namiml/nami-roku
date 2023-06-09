@@ -1,4 +1,4 @@
- sub init()
+sub init()
     setupLocals()
     initializeNamiSDKValues()
 end sub
@@ -21,6 +21,7 @@ sub initializeNamiSDKValues()
     m.top.campaigns = m.namiCampaignManager.callFunc("allCampaigns")
 
     m.namiPaywallManager.callFunc("registerBuySkuHandler", m.top)
+    m.namiCustomerManager.callFunc("registerAccountStateHandler", m.top)
 end sub
 
 function registerBuySkuHandlerCallback(sku as dynamic)
@@ -78,3 +79,7 @@ end sub
 sub onPaywallDismissed()
     m.top.paywallScreenDismissed = true
 end sub
+
+function onAccountStateChanged(state, isSuccess, error)
+    
+end function

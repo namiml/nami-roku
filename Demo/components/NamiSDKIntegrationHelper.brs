@@ -4,6 +4,7 @@ sub InitializeNamiSDK()
     m.namiSDK.id = "namiSDK"
     m.namiSDK.observeField("loadStatus", "onSDKLoadStatusChanged")
     m.namiSDK.uri = m.global.namiSDKPath
+    m.top.addFields({"namiSDK": m.namiSDK})
 end sub
 
 ' Creates the SDK wrapper once the component library node successfully loads the namiSDK
@@ -18,19 +19,19 @@ end sub
 
 sub setupWrapperSDK()
     ' Production and staging appPlatformId are set from the appData.json
-    appPlatformId = m.global.namiAppPlatformIdProduction
-    if m.global.namiEnvironment = "staging"
-        appPlatformId = m.global.namiAppPlatformIdStaging
+    appPlatformId = m.global.appPlatformIdProduction
+    if m.global.environment = "staging"
+        appPlatformId = m.global.appPlatformIdStaging
     end if
 
     ' Create NamiConfiguration object and configure it with required data
     m.namiConfig = m.namiSDK.CreateChild("namiSDK:NamiConfiguration")
-    m.namiConfig.callFunc("configuration", appPlatformId)
+    m.namiConfig.callFunc("configuration", appPlatformId, m.global.fonts)
     m.namiConfig.logLevel = "debug"
 
-    if m.global.namiEnvironment = "staging"
+    if m.global.environment = "staging"
         m.namiConfig.namiCommands = ["useStagingAPI"]
-    end if  
+    end if
 
     m.nami =  m.namiSDK.CreateChild("namiSDK:Nami")
     configureStatus = m.nami.callFunc("configure", m.namiConfig)

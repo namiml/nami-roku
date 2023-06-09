@@ -5,6 +5,8 @@
     <interface>
         <field id="namiDataSourceNode" type="node" alwaysNotify="true" onChange="OnDataSourceReceived"/>
         <field id="campaignList" type="roArray" onChange="OnCampaignListReceived"/>
+
+        <function name="campaignLaunchHandler" />
     </interface>
 
     <children>

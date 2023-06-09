@@ -12,6 +12,15 @@ sub onVisibleChange(event as dynamic)
     if isVisible
         m.top.campaignList = m.top.namiDataSourceNode.campaigns
         m.llCampaign.setFocus(true)
+    else
+        m.scene = m.top.getScene()
+        m.namiSDK = m.scene.findNode("namiSDK")
+        if m.namiSDK <> invalid
+            m.namiPaywallManager = m.namiSDK.findNode("NamiPaywallManagerObj")
+            if m.namiPaywallManager <> invalid
+                m.namiPaywallManager.callFunc("deRegisterPaywallParentView", m.top)
+            end if
+        end if
     end if
 end sub
 
@@ -21,8 +30,8 @@ sub OnDataSourceReceived()
 end sub
 
 sub OnPaywallScreenDismissed(event as dynamic)
-    print "OnPaywallScreenDismissed - " OnPaywallScreenDismissed
     isDismissed = event.getData()
+    print "CampaignView : OnPaywallScreenDismissed : " isDismissed
     if (isDismissed)
         m.llCampaign.setFocus(true)
     end if
@@ -53,6 +62,13 @@ sub OnCampaignListReceived(event as dynamic)
 
     m.llCampaign.content = parentNode
     m.llCampaign.visible = true
+
+    'Register the current view to load the paywallScreen on top of it.
+    m.scene = m.top.getScene()
+    m.namiSDK = m.scene.findNode("namiSDK")
+    m.namiPaywallManager = m.namiSDK.findNode("NamiPaywallManagerObj")
+    m.namiPaywallManager.callFunc("registerPaywallParentView", m.top)
+
     m.scene.callFunc("hideLoader")
 end sub
 
@@ -63,18 +79,47 @@ sub onItemSelected(event as dynamic)
     m.namiCampaignManager = m.namiSDK.findNode("NamiCampaignManagerObj")
     if selectedIndex = 0
         print "CampaignView : onItemSelected : default campaign is selected"
-        m.namiCampaignManager.unobserveField("campaignLaunchHandler")
-        m.namiCampaignManager.observeField("campaignLaunchHandler", "OnCampaignLaunchHandler")
-        m.namiCampaignManager.callFunc("launch")
+        m.namiCampaignManager.callFunc("launch", m.top, "campaignLaunchHandler")
     else
         print "CampaignView : onItemSelected : selected campaign is - " m.top.campaignList[selectedIndex - 1].valueField
-        m.namiCampaignManager.unobserveField("campaignLaunchHandler")
-        m.namiCampaignManager.observeField("campaignLaunchHandler", "OnCampaignLaunchHandler")
-        m.namiCampaignManager.callFunc("launchWithLabel", m.top.campaignList[selectedIndex - 1].valueField)
+        m.namiCampaignManager.callFunc("launchWithLabel", m.top.campaignList[selectedIndex - 1].valueField, m.top, "campaignLaunchHandler")
     end if
     m.scene.paywallScreenDismissed = false
 end sub
 
-function OnCampaignLaunchHandler()
-    ' TODO : implement the flow for this
+function campaignLaunchHandler(isSuccess as boolean, error as dynamic)
+    if not isSuccess
+        print "***** ERROR WHILE LAUNCHING CAMPAIGN *****"
+        print "DOMAIN: " error.domain
+        print "CODE: " error.code
+        print "MESSAGE: " error.message
+        print "***** ***** ***** ***** ***** ***** *****"
+        showMessageDialog(error)
+    end if
 end function
+
+sub showMessageDialog(error)
+    m.dialog = createObject("roSgNode", "StandardMessageDialog")
+    m.dialog.title = "ERROR - " + error.domain
+    message = error.message
+    m.dialog.message = [message]
+    m.dialog.buttons = ["Ok"]
+
+    ' observe the dialog's buttonSelected field to handle button selections
+    m.dialog.observeFieldScoped("buttonSelected", "onButtonSelected")
+
+    m.scene.dialog = m.dialog
+end sub
+
+sub closeDialog()
+    if (m.scene.dialog <> invalid) then
+        m.scene.dialog.close = true
+        m.scene.dialog = invalid
+    end if
+end sub
+
+sub onButtonSelected()
+    if m.dialog.buttonSelected = 0
+        closeDialog()
+    end if
+end sub
