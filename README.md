@@ -22,11 +22,3 @@ Nami is simple adopt while giving you the tools you need to improve revenue.
 ### Documentation
 - [Nami Roku Control Center Setup](https://docs.namiml.com/docs/create-roku-platform-integration)
 - [Nami Roku SDK Setup](https://docs.namiml.com/docs/roku-setup)
-
-### Release Notes
-- [Stable](https://github.com/namiml/nami-roku/wiki/Nami-SDK-Stable-Releases)
-- [Early Access](https://github.com/namiml/nami-roku/wiki/Nami-SDK-Early-Access-Releases)
-
-### Other Resources
-- [Nami Quickstart](https://docs.namiml.com/docs/nami-quickstart-guide)
-- [SDK Reference](https://docs.namiml.com/reference/)
