@@ -16,9 +16,5 @@ Nami is simple adopt while giving you the tools you need to improve revenue.
 
 ## Using the Nami SDK for Roku
 
-### Requirements
-- Roku OS 12+
-
-### Documentation
 - [Nami Roku Control Center Setup](https://docs.namiml.com/docs/create-roku-platform-integration)
 - [Nami Roku SDK Setup](https://docs.namiml.com/docs/roku-setup)
