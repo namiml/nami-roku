@@ -77,12 +77,21 @@ sub onItemSelected(event as dynamic)
     m.scene = m.top.getScene()
     m.namiSDK = m.scene.findNode("namiSDK")
     m.namiCampaignManager = m.namiSDK.findNode("NamiCampaignManagerObj")
+
+    paywallLaunchContext = CreateObject("roSGNode", "NamiSDK:PaywallLaunchContext")
+    paywallLaunchContext.productGroups = ["group1", "group2"]
+    paywallLaunchContext.customAttributes = {
+        "matchupImage": "https://www.exmaple.com/matchupImage.png"
+    }
+
     if selectedIndex = 0
         print "CampaignView : onItemSelected : default campaign is selected"
-        m.namiCampaignManager.callFunc("launch", m.top, "campaignLaunchHandler")
+        ' m.namiCampaignManager.callFunc("launch", m.top, "campaignLaunchHandler")
+        m.namiCampaignManager.callFunc("launchWithHandler", "", paywallLaunchContext, m.top, "campaignLaunchHandler", m.top.namiDataSourceNode, "paywallActionHandler")
     else
         print "CampaignView : onItemSelected : selected campaign is - " m.top.campaignList[selectedIndex - 1].valueField
-        m.namiCampaignManager.callFunc("launchWithLabel", m.top.campaignList[selectedIndex - 1].valueField, m.top, "campaignLaunchHandler")
+        ' m.namiCampaignManager.callFunc("launchWithLabel", m.top.campaignList[selectedIndex - 1].valueField, m.top, "campaignLaunchHandler")
+        m.namiCampaignManager.callFunc("launchWithHandler", m.top.campaignList[selectedIndex - 1].valueField, paywallLaunchContext, m.top, "campaignLaunchHandler", m.top.namiDataSourceNode, "paywallActionHandler")
     end if
     m.scene.paywallScreenDismissed = false
 end sub

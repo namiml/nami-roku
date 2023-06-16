@@ -17,5 +17,6 @@
         <function name="registerBuySkuHandlerCallback" />
         <function name="onPaywallDismissed" />
         <function name='onAccountStateChanged' />
+        <function name="paywallActionHandler" />
     </interface>
 </component>

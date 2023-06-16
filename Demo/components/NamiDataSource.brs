@@ -22,12 +22,19 @@ sub initializeNamiSDKValues()
 
     m.namiPaywallManager.callFunc("registerBuySkuHandler", m.top)
     m.namiCustomerManager.callFunc("registerAccountStateHandler", m.top)
+
+    m.namiCustomerManager.callFunc("setCustomerDataPlatformId", "aaaa")
+
+    m.namiCustomerManager.callFunc("login", "1234")
+
+    m.namiCustomerManager.callFunc("logout")
+
+
 end sub
 
 function registerBuySkuHandlerCallback(sku as dynamic)
     m.namiPaywallManager.callFunc("dismiss", m.top, "OnPaywallDismissed")
 
-    ' TODO : RSS : Add purchase flow
     print "NamiDataSource : registerBuySkuHandlerCallback : sku : " sku
     m.top.sku = sku
     showPurchaseDialog(sku)
@@ -63,11 +70,12 @@ sub successfulPurchase()
     if isSuccessfulPurchase
         purchaseSuccess = m.namiSDK.CreateChild("namiSDK:NamiPurchaseSuccess")
         purchaseSuccess.product = m.top.sku
-        purchaseSuccess.transactionId = "<TRANSACTION_ID>"
-        purchaseSuccess.originalTransactionId = "<ORIGINAL_TRANSACTION_ID>"
+
+        purchaseSuccess.purchaseId = "<PURCHASE_ID>"
+        purchaseSuccess.qty = "<QTY>"
+        purchaseSuccess.amount = "<AMOUNT>"
         purchaseSuccess.originalPurchaseDate = "<ORIGINAL_PURCHASE_DATE>"
         purchaseSuccess.purchaseDate = "<PURCHASE_DATE>"
-        purchaseSuccess.expiresDate = "<EXPIRES_DATE>"
         purchaseSuccess.price = "<PRICE>"
         purchaseSuccess.currencyCode = "<CURRENCY_CODE>"
         purchaseSuccess.locale = "<LOCALE>"
@@ -81,5 +89,51 @@ sub onPaywallDismissed()
 end sub
 
 function onAccountStateChanged(state, isSuccess, error)
-    
+    m.top.isLoggedIn = m.namiCustomerManager.callFunc("isLoggedIn")
+    m.top.loggedInId = m.namiCustomerManager.callFunc("loggedInId")
+    m.top.deviceId = m.namiCustomerManager.callFunc("deviceId")
+
+    if isSuccess
+        if state = 0
+            print "success logging in"
+        else if state = 1
+            print "success logging out"
+        else if state = 2
+            print "advertising id set"
+        else if state = 3
+            print "advertising id cleared"
+        else if state = 4
+            print "vendor id set"
+        else if state = 5
+            print "vendor id cleared"
+        else if state = 6
+            print "cdp id set"
+        else if state = 7
+            print "cdp id cleared"
+        end if
+    else
+        if state = 0
+            print "error logging in: " + error.message
+        else if state = 1
+            print "error logging out: " + error.message
+        else if state = 2
+            print "error setting advertising id: " + error.message
+        else if state = 3
+            print "error clearing advertising id: " + error.message
+        else if state = 4
+            print "error setting vendor id: " + error.message
+        else if state = 5
+            print "errot clearing vendor id: " + error.message
+        else if state = 6
+            print "error in setting cdp id: " + error.message
+        else if state = 7
+            print "error in clearing dp id: " + error.message
+        end if
+    end if
+end function
+
+function paywallActionHandler(paywallAction as dynamic)
+    print "In paywallActionHandler ---> "
+    print paywallAction
+    print "<--- "
 end function
