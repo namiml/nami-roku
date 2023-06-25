@@ -72,10 +72,11 @@ sub onItemSelected(event as dynamic)
     selectedIndex = event.getData()
     m.namiCampaignManager = m.scene.namiSDK.nami.callFunc("getCampaignManager")
 
+    ' Optional launch context. Only pass into launch for supported templates.
     paywallLaunchContext = CreateObject("roSGNode", "NamiSDK:PaywallLaunchContext")
-    paywallLaunchContext.productGroups = ["nfl", "nfl_premium"]
+    paywallLaunchContext.productGroups = ["group1", "group2"]
     paywallLaunchContext.customAttributes = {
-        "matchupImage": "https://www.exmaple.com/matchupImage.png"
+        "exampleImage": "https://www.exmaple.com/exampleImage.png"
     }
 
     if selectedIndex = 0
