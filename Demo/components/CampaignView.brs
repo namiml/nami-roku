@@ -13,10 +13,8 @@ sub onVisibleChange(event as dynamic)
         m.top.campaignList = m.top.namiDataSourceNode.campaigns
         m.llCampaign.setFocus(true)
     else
-        m.scene = m.top.getScene()
-        m.namiSDK = m.scene.findNode("namiSDK")
-        if m.namiSDK <> invalid
-            m.namiPaywallManager = m.namiSDK.findNode("NamiPaywallManagerObj")
+        if m.scene.namiSDK <> invalid
+            m.namiPaywallManager = m.scene.namiSDK.nami.callFunc("getPaywallManager")
             if m.namiPaywallManager <> invalid
                 m.namiPaywallManager.callFunc("deRegisterPaywallParentView", m.top)
             end if
@@ -25,7 +23,7 @@ sub onVisibleChange(event as dynamic)
 end sub
 
 sub OnDataSourceReceived()
-    m.top.getScene().observeField("paywallScreenDismissed", "OnPaywallScreenDismissed")
+    m.scene.observeField("paywallScreenDismissed", "OnPaywallScreenDismissed")
     m.top.namiDataSourceNode.observeField("paywallScreenDismissed", "OnPaywallScreenDismissed")
 end sub
 
@@ -39,7 +37,6 @@ end sub
 
 sub OnCampaignListReceived(event as dynamic)
     campaignList = event.getData()
-
     if campaignList = invalid or campaignList.count() = 0
         m.llCampaign.content = invalid
         m.llCampaign.visible = false
@@ -50,36 +47,33 @@ sub OnCampaignListReceived(event as dynamic)
 
     m.lNoItems.visible = false
 
-    parentNode = createObject("RoSGNode", "ContentNode")
-
-    node = parentNode.createChild("ContentNode")
-    node.title = "default"
-
-    for each campaign in campaignList
-        node = parentNode.createChild("ContentNode")
-        node.title = campaign.valueField
-    end for
-
-    m.llCampaign.content = parentNode
+    m.llCampaign.content = parseCampaignList(campaignList)
     m.llCampaign.visible = true
 
     'Register the current view to load the paywallScreen on top of it.
-    m.scene = m.top.getScene()
-    m.namiSDK = m.scene.findNode("namiSDK")
-    m.namiPaywallManager = m.namiSDK.findNode("NamiPaywallManagerObj")
+    m.namiPaywallManager = m.scene.namiSDK.nami.callFunc("getPaywallManager")
     m.namiPaywallManager.callFunc("registerPaywallParentView", m.top)
 
     m.scene.callFunc("hideLoader")
 end sub
 
+function parseCampaignList(campaignList as dynamic)
+    parentNode = createObject("RoSGNode", "ContentNode")
+    node = parentNode.createChild("ContentNode")
+    node.title = "default"
+    for each campaign in campaignList
+        node = parentNode.createChild("ContentNode")
+        node.title = campaign.valueField
+    end for
+    return parentNode
+end function
+
 sub onItemSelected(event as dynamic)
     selectedIndex = event.getData()
-    m.scene = m.top.getScene()
-    m.namiSDK = m.scene.findNode("namiSDK")
-    m.namiCampaignManager = m.namiSDK.findNode("NamiCampaignManagerObj")
+    m.namiCampaignManager = m.scene.namiSDK.nami.callFunc("getCampaignManager")
 
     paywallLaunchContext = CreateObject("roSGNode", "NamiSDK:PaywallLaunchContext")
-    paywallLaunchContext.productGroups = ["group1", "group2"]
+    paywallLaunchContext.productGroups = ["nfl", "nfl_premium"]
     paywallLaunchContext.customAttributes = {
         "matchupImage": "https://www.exmaple.com/matchupImage.png"
     }
@@ -89,7 +83,7 @@ sub onItemSelected(event as dynamic)
         ' m.namiCampaignManager.callFunc("launch", m.top, "campaignLaunchHandler")
         m.namiCampaignManager.callFunc("launchWithHandler", "", paywallLaunchContext, m.top, "campaignLaunchHandler", m.top.namiDataSourceNode, "paywallActionHandler")
     else
-        print "CampaignView : onItemSelected : selected campaign is - " m.top.campaignList[selectedIndex - 1].valueField
+        print "CampaignView : onItemSelected : Selected Campaign : " m.top.campaignList[selectedIndex - 1].valueField
         ' m.namiCampaignManager.callFunc("launchWithLabel", m.top.campaignList[selectedIndex - 1].valueField, m.top, "campaignLaunchHandler")
         m.namiCampaignManager.callFunc("launchWithHandler", m.top.campaignList[selectedIndex - 1].valueField, paywallLaunchContext, m.top, "campaignLaunchHandler", m.top.namiDataSourceNode, "paywallActionHandler")
     end if
