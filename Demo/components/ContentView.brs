@@ -1,6 +1,7 @@
 sub init()
     m.scene = m.top.getScene()
     m.campaignViewControl = m.top.findNode("campaignViewControl")
+    m.profileViewControl = m.top.findNode("profileViewControl")
 
     m.top.observeField("visible", "onVisibleChange")
 
@@ -20,10 +21,16 @@ sub onVisibleChange(event as dynamic)
             setInitialValuesForNamiDataSource()
         end if
         showCampaignView()
+        ' showProfileView()
     end if
 end sub
 
 sub showCampaignView()
     m.campaignViewControl.namiDataSourceNode = m.namiDataSource
     m.campaignViewControl.visible = true
+end sub
+
+sub showProfileView()
+    m.profileViewControl.namiDataSourceNode = m.namiDataSource
+    m.profileViewControl.visible = true
 end sub

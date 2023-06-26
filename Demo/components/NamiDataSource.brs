@@ -5,10 +5,11 @@ end sub
 
 sub setupLocals()
     m.scene = m.top.getScene()
-    m.namiSDK = m.scene.findNode("namiSDK")
-    m.namiCustomerManager = m.namiSDK.findNode("NamiCustomerManagerObj")
-    m.namiCampaignManager = m.namiSDK.findNode("NamiCampaignManagerObj")
-    m.namiPaywallManager = m.namiSDK.findNode("NamiPaywallManagerObj")
+    m.namiSDK = m.scene.namiSDK
+    m.namiManager = m.namiSDK.nami
+    m.namiCustomerManager = m.namiManager.callFunc("getCustomerManager")
+    m.namiCampaignManager = m.namiManager.callFunc("getCampaignManager")
+    m.namiPaywallManager = m.namiManager.callFunc("getPaywallManager")
 end sub
 
 sub initializeNamiSDKValues()
@@ -24,17 +25,12 @@ sub initializeNamiSDKValues()
     m.namiCustomerManager.callFunc("registerAccountStateHandler", m.top)
 
     m.namiCustomerManager.callFunc("setCustomerDataPlatformId", "aaaa")
-
-    m.namiCustomerManager.callFunc("login", "1234")
-
-    m.namiCustomerManager.callFunc("logout")
-
-
 end sub
 
 function registerBuySkuHandlerCallback(sku as dynamic)
     m.namiPaywallManager.callFunc("dismiss", m.top, "OnPaywallDismissed")
 
+    ' TODO : RSS : Add purchase flow
     print "NamiDataSource : registerBuySkuHandlerCallback : sku : " sku
     m.top.sku = sku
     showPurchaseDialog(sku)
@@ -85,6 +81,7 @@ sub successfulPurchase()
 end sub
 
 sub onPaywallDismissed()
+    print "NamiDataSource : onPaywallDismissed"
     m.top.paywallScreenDismissed = true
 end sub
 
@@ -92,6 +89,7 @@ function onAccountStateChanged(state, isSuccess, error)
     m.top.isLoggedIn = m.namiCustomerManager.callFunc("isLoggedIn")
     m.top.loggedInId = m.namiCustomerManager.callFunc("loggedInId")
     m.top.deviceId = m.namiCustomerManager.callFunc("deviceId")
+    m.top.isUpdated = true
 
     if isSuccess
         if state = 0
@@ -133,7 +131,7 @@ function onAccountStateChanged(state, isSuccess, error)
 end function
 
 function paywallActionHandler(paywallAction as dynamic)
-    print "In paywallActionHandler ---> "
+    print "NamiDataSource : In paywallActionHandler ---> "
     print paywallAction
-    print "<--- "
+    print "NamiDataSource : <--- "
 end function

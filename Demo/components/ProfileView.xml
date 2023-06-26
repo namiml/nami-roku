@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="ProfileView" extends="Group">
+    <script type="text/brightscript" uri="pkg:/components/ProfileView.brs" />
+
+    <interface>
+        <field id="namiDataSourceNode" type="node" alwaysNotify="true" onChange="OnDataSourceReceived"/>
+    </interface>
+
+    <children>
+        <Label id="lDeviceId" text="" horizAlign="center" vertAlign="center" width="1920" height="100" translation="[0, 100]"/>
+        <Label id="lUserInfo" text="" horizAlign="center" vertAlign="center" width="1920" height="100" translation="[0, 200]"/>
+        <Label id="lJourneyState" text="" horizAlign="center" vertAlign="center" width="1920" height="780" translation="[0, 300]" />
+        <Label id="lInstruction" text="" horizAlign="center" vertAlign="center" width="1920" height="100" translation="[0, 980]" />
+    </children>
+</component>

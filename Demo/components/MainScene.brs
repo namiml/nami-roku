@@ -1,6 +1,9 @@
 sub init()
     print "Mainscene : init"
-    m.global = getAppConfigFromFile()
+    globalFields = {
+        "appConfig": getAppConfigFromFile()
+    }
+    m.global.addFields(globalFields)
     setupControls()
 end sub
 
@@ -9,6 +12,14 @@ sub setupControls()
     createBusySpinner()
     m.contentViewControl = m.top.findNode("contentViewControl")
     InitializeNamiSDK()
+end sub
+
+sub createBusySpinner()
+    m.loader = m.top.findNode("loader")
+    m.loader.poster.uri = "pkg:/images/loader.png"
+    m.loader.poster.width = 160
+    m.loader.poster.height = 160
+    m.loader.visible = true
 end sub
 
 sub showContentView()
@@ -34,14 +45,6 @@ sub initialize()
     m.top.setFocus(true)
 end sub
 
-sub createBusySpinner()
-    m.loader = m.top.findNode("loader")
-    m.loader.poster.uri = "pkg:/images/loader.png"
-    m.loader.poster.width = 160
-    m.loader.poster.height = 160
-    m.loader.visible = true
-end sub
-
 sub showLoader()
     m.loader.visible = true
 end sub
@@ -64,7 +67,7 @@ function getAppConfigFromFile() as Dynamic
 end function
 
 function onPaywallDismissed()
-    print "onPaywallDismissed - MainScene - "
+    print "MainScene : onPaywallDismissed"
     m.top.paywallScreenDismissed = true
 end function
 

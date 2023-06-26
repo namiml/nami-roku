@@ -12,6 +12,8 @@
         <field id="campaigns" type="array" />
         <field id="sku" type="node"/>
 
+        <field id="isUpdated" type="boolean" alwaysNotify="true"/>
+
         <field id="paywallScreenDismissed" type="boolean" value="false" alwaysNotify="true" />
 
         <function name="registerBuySkuHandlerCallback" />
