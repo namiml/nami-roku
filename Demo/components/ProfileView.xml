@@ -3,7 +3,8 @@
     <script type="text/brightscript" uri="pkg:/components/ProfileView.brs" />
 
     <interface>
-        <field id="namiDataSourceNode" type="node" alwaysNotify="true" onChange="OnDataSourceReceived"/>
+        <field id="namiDataSource" type="node" alwaysNotify="true"/>
+        <field id="initialize" type="boolean" value="false" alwaysNotify="true" onChange="onInitializeChanged"/>
     </interface>
 
     <children>

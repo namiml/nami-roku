@@ -2,6 +2,10 @@
 <component name="ContentView" extends="Group">
   <script type="text/brightscript" uri="pkg:/components/ContentView.brs" />
 
+  <interface>
+    <field id="initialize" type="boolean" value="false" alwaysNotify="true" onChange="onInitializeChanged"/>
+  </interface>
+
   <children>
     <!-- TODO : RSS : Add the tabbar for the switching among campaign, profile and entitlements screens -->
     <CampaignView id="campaignViewControl" visible="false"/>

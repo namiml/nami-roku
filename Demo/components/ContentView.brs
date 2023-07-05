@@ -8,29 +8,38 @@ sub init()
     m.isFirstTime = true
 end sub
 
-sub setInitialValuesForNamiDataSource()
-    m.namiDataSource = m.top.CreateChild("NamiDataSource")
+sub onInitializeChanged(event as dynamic)
+    initialize = event.getData()
+    print "ContentView : onInitializeChanged : initialize : " initialize
+    if initialize
+        m.namiDataSource = m.top.CreateChild("NamiDataSource")
+        m.campaignViewControl.namiDataSource = m.namiDataSource
+        ' m.profileViewControl.namiDataSource = m.namiDataSource
+        m.campaignViewControl.initialize = true
+        showCampaignView()
+    end if
 end sub
 
 sub onVisibleChange(event as dynamic)
     isVisible = event.getData()
     if isVisible
-        ' TODO : RSS : When tabbar is implemented call this function based on current tab selection. 
-        if m.isFirstTime = true
-            m.isFirstTime = false
-            setInitialValuesForNamiDataSource()
-        end if
         showCampaignView()
-        ' showProfileView()
     end if
 end sub
 
 sub showCampaignView()
-    m.campaignViewControl.namiDataSourceNode = m.namiDataSource
     m.campaignViewControl.visible = true
 end sub
 
 sub showProfileView()
-    m.profileViewControl.namiDataSourceNode = m.namiDataSource
+    m.profileViewControl.namiDataSource = m.namiDataSource
     m.profileViewControl.visible = true
 end sub
+
+function onKeyEvent(key as String, press as Boolean) as Boolean
+    result = false
+    if (press)
+        print "ContentView : onKeyEvent : key = " key " press = " press
+    end if
+    return result
+end function

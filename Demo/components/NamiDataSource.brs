@@ -23,7 +23,6 @@ sub initializeNamiSDKValues()
 
     m.namiPaywallManager.callFunc("registerBuySkuHandler", m.top)
     m.namiCustomerManager.callFunc("registerAccountStateHandler", m.top)
-
     m.namiCustomerManager.callFunc("setCustomerDataPlatformId", "aaaa")
 end sub
 
@@ -75,7 +74,7 @@ sub successfulPurchase()
         purchaseSuccess.price = "<PRICE>"
         purchaseSuccess.currencyCode = "<CURRENCY_CODE>"
         purchaseSuccess.locale = "<LOCALE>"
-        m.namiPaywallManager.callFunc("buySkuComplete", purchaseSuccess)
+        ' m.namiPaywallManager.callFunc("buySkuComplete", purchaseSuccess)
     end if
     closeDialog()
 end sub
