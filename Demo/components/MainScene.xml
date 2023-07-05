@@ -5,11 +5,13 @@
   <script type="text/brightscript" uri="pkg:/components/NamiSDKIntegrationHelper.brs" />
 
   <interface>
+    <field id="outRequest" type="AssocArray"/>
     <field id="paywallScreenDismissed" type="boolean" value="false" alwaysNotify="true" />
 
     <function name="onPaywallDismissed" />
     <function name="showLoader" />
     <function name="hideLoader" />
+    <function name="onExitApp" />
   </interface>
 
   <children>

@@ -3,9 +3,8 @@
     <script type="text/brightscript" uri="pkg:/components/CampaignView.brs" />
 
     <interface>
-        <field id="namiDataSourceNode" type="node" alwaysNotify="true" onChange="OnDataSourceReceived"/>
-        <field id="campaignList" type="roArray" onChange="OnCampaignListReceived"/>
-
+        <field id="namiDataSource" type="node" alwaysNotify="true"/>
+        <field id="initialize" type="boolean" value="false" alwaysNotify="true" onChange="onInitializeChanged"/>
         <function name="campaignLaunchHandler" />
     </interface>
 

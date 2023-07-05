@@ -1,5 +1,6 @@
 ' Creates the component library node and loads the namiSDK from the URI mentioned in the appData.json as namiSDKPath
 sub InitializeNamiSDK()
+    print "NamiSDKIntegrationHelper : InitializeNamiSDK : Loading SDK, Path : " m.global.appConfig.namiSDKPath
     m.namiSDK = m.top.createChild("ComponentLibrary")
     m.namiSDK.id = "namiSDK"
     m.namiSDK.observeField("loadStatus", "onSDKLoadStatusChanged")
@@ -11,10 +12,12 @@ end sub
 sub onSDKLoadStatusChanged(event as dynamic)
     loadStatus = event.getData()
     if loadStatus = "ready"
+        print "NamiSDKIntegrationHelper : onSDKLoadStatusChanged : SDK loaded successfully."
         m.namiSDK.unobserveField("loadStatus")
         setupWrapperSDK()
         initialize()
     else if loadStatus = "failed"
+        print "*** ERROR *** NamiSDKIntegrationHelper : InitializeNamiSDK : Failed to load SDK."
         ' Add Error Hanlding if required
     end if
 end sub
@@ -29,11 +32,12 @@ sub setupWrapperSDK()
     ' Create NamiConfiguration object and configure it with required data
     m.namiConfig = m.namiSDK.CreateChild("namiSDK:NamiConfiguration")
     m.namiConfig.callFunc("configuration", appPlatformId, m.global.appConfig.fonts)
-    m.namiConfig.logLevel = "debug"
+    m.namiConfig.logLevel = ["info", "warn", "error"] ' "debug"
 
-    if m.global.appConfig.environment = "staging"
-        m.namiConfig.namiCommands = ["useStagingAPI"]
-    end if
+    ' Only for Nami internal
+    ' if m.global.appConfig.environment = "staging"
+    '     m.namiConfig.namiCommands = ["useStagingAPI"]
+    ' end if
 
     ' Uncomment if you have initial config files in your appData.json
     ' initialConfigFileText = ReadAsciiFile(m.global.appConfig.namiInitialConfigFilePath)
@@ -41,36 +45,28 @@ sub setupWrapperSDK()
     '     m.namiConfig.initialConfig = initialConfigFileText
     ' end if
 
-    m.nami = m.namiSDK.CreateChild("namiSDK:Nami")
-    m.namiSDK.addFields({"nami": m.nami})
+    m.namiManager = m.namiSDK.CreateChild("namiSDK:Nami")
+    m.namiSDK.addFields({"nami": m.namiManager})
 
-    ' As of now, we are not storing the api response in cache, so we will wait for the inital
-    ' campaigns and paywall data to be received and then display them on screen.
-    m.nami.observeField("isInitialDataLoaded", "OnSDKReadyWithData")
+    ' Get SDK ready state before displaying campaign
+    m.namiManager.observeField("isInitialDataLoaded", "OnSDKReadyWithData")
 
-    ' This is for demo purpose only.
-    m.nami.observeField("SDKStatusLabelText", "OnSDKStatusChanged")
-
-    configureStatus = m.nami.callFunc("configure", m.namiConfig)
+    configureStatus = m.namiManager.callFunc("configure", m.namiConfig)
     print "NamiSDKIntegrationHelper : setupWrapperSDK : Nami configuration status : " configureStatus
 
-    ' Recommended: Create the single objects for all the required interfaces before calling the interface methods
-    m.namiCampaignManager = m.namiSDK.nami.callFunc("getCampaignManager")
-    m.namiCustomerManager = m.namiSDK.nami.callFunc("getCustomerManager")
-    m.namiPaywallManager = m.namiSDK.nami.callFunc("getPaywallManager")
-    m.namiEntitlementManager = m.namiSDK.nami.callFunc("getEntitlementManager")
-end sub
-
-' This is for demo purpose only.
-sub OnSDKStatusChanged(event as dynamic)
-    statusText = event.getData()
-    print "NamiSDKIntegrationHelper : OnSDKStatusChanged : status : " statusText
+    ' Get required objects as following
+    m.namiCampaignManager = m.namiManager.callFunc("getCampaignManager")
+    m.namiCustomerManager = m.namiManager.callFunc("getCustomerManager")
+    m.namiPaywallManager = m.namiManager.callFunc("getPaywallManager")
+    m.namiEntitlementManager = m.namiManager.callFunc("getEntitlementManager")
 end sub
 
 sub OnSDKReadyWithData(event as dynamic)
     isReady = event.getData()
-    ' print "NamiSDKIntegrationHelper : SDK is ready with data"
+    print "NamiSDKIntegrationHelper : SDK Status with data : " isReady
     if isReady
         showContentView()
+    else
+        ' TODO: Add required handling here
     end if
 end sub

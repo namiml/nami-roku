@@ -23,6 +23,9 @@ sub createBusySpinner()
 end sub
 
 sub showContentView()
+    print "MainScene : showContentView"
+    hideLoader()
+    m.contentViewControl.initialize = true
     m.contentViewControl.visible = true
 end sub
 
@@ -71,6 +74,11 @@ function onPaywallDismissed()
     m.top.paywallScreenDismissed = true
 end function
 
+function onExitApp()
+    hideLoader()
+    m.top.outRequest = {"ExitApp": true}
+end function
+
 function onKeyEvent(key as String, press as Boolean) as Boolean
     result = false
     if (press)
@@ -79,6 +87,10 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
         else if (key = "back") then
             if (m.top.paywallScreenDismissed = false)
                 m.namiPaywallManager.callFunc("dismiss", m.top, "OnPaywallDismissed")
+                result = true
+            else if m.nami <> invalid
+                showLoader()
+                m.nami.callFunc("doTasksBeforeAppExit", m.top, "onExitApp")
                 result = true
             end if
         end if

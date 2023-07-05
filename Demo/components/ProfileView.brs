@@ -1,13 +1,16 @@
 sub init()
     m.scene = m.top.getScene()
-    m.top.observeField("visible", "onVisibleChange")
+    m.namiSDK = m.scene.findNode("namiSDK")
+    m.namiCustomerManager = m.namiSDK.findNode("NamiCustomerManagerObj")
+    m.isFirstTime = false
+    m.isActionInProcess = false
 
     m.lDeviceId = m.top.findNode("lDeviceId")
     m.lUserInfo = m.top.findNode("lUserInfo")
     m.lJourneyState = m.top.findNode("lJourneyState")
     m.lInstruction = m.top.findNode("lInstruction")
 
-    m.isFirstTime = false
+    m.top.observeField("visible", "onVisibleChange")
 end sub
 
 sub onVisibleChange(event as dynamic)
@@ -20,17 +23,12 @@ sub onVisibleChange(event as dynamic)
 end sub
 
 sub updateProfileView()
-
     m.isActionInProcess = false
-    m.scene = m.top.getScene()
-    m.namiSDK = m.scene.findNode("namiSDK")
-    m.namiCustomerManager = m.namiSDK.findNode("NamiCustomerManagerObj")
+    m.lDeviceId.text = "Device ID: " + m.top.namiDataSource.deviceId
 
-    m.lDeviceId.text = "Device ID: " + m.top.namiDataSourceNode.deviceId
-
-    if m.top.namiDataSourceNode.isLoggedIn = true
+    if m.top.namiDataSource.isLoggedIn = true
         m.lInstruction.text = "Press * to logout"
-        m.lUserInfo.text = "Registered User: External ID: " + m.top.namiDataSourceNode.loggedInId
+        m.lUserInfo.text = "Registered User: External ID: " + m.top.namiDataSource.loggedInId
     else
         m.lInstruction.text = "Press * to login"
         m.lUserInfo.text = "Anonymous User"
@@ -42,11 +40,11 @@ end sub
 sub OnUserAction()
     m.scene.callFunc("showLoader")
 
-    m.top.namiDataSourceNode.unobserveField("isUpdated")
-    m.top.namiDataSourceNode.observeField("isUpdated", "OnDataSourceUpdated")
+    m.top.namiDataSource.unobserveField("isUpdated")
+    m.top.namiDataSource.observeField("isUpdated", "OnDataSourceUpdated")
 
     m.isActionInProcess = true
-    if m.top.namiDataSourceNode.isLoggedIn = true
+    if m.top.namiDataSource.isLoggedIn = true
         OnUserActionLogout()
     else
         OnUserActionLogin()
@@ -63,14 +61,18 @@ sub OnUserActionLogin()
     m.namiCustomerManager.callFunc("login", id)
 end sub
 
-sub OnDataSourceUpdated(event as dynamic)
-    updateProfileView()
+sub onInitializeChanged(event as dynamic)
+    initialize = event.getData()
+    print "CampaignView : onInitializeChanged : initialize : " initialize
+    if initialize
+        updateProfileView()
+    end if
 end sub
 
 function onKeyEvent(key as String, press as Boolean) as Boolean
     result = false
-    print "ProfileView OnKeyEvent: press " press " key : " key
     if (press)
+        print "ProfileView OnKeyEvent: press " press " key : " key
         if key = "options" and m.isActionInProcess = false
             OnUserAction()
             result = true
