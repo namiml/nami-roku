@@ -1,10 +1,14 @@
 {
-  "namiSDKPath": "https://packages.namiml.com/NamiSDK/Roku/NamiRoku.pkg",
-  "appPlatformIdProduction": "YOUR_APP_PLATFORM_ID_PROD",
-  "appPlatformIdStaging": "YOUR_APP_PLATFORM_ID_STAGE",
-  "environment": "production",
+  "appPlatformIdProduction": "69afd940-d7de-4223-bf70-3d3822128edb",
+  "appPlatformIdStaging": "69afd940-d7de-4223-bf70-3d3822128edb",
+  "environment": "staging",
   "fonts": {
+    "MuseoSans-500": "pkg:/source/fonts/Museo_Sans-500.otf",
     "opensans_bold": "pkg:/source/fonts/opensans_bold.ttf",
     "opensans_regular": "pkg:/source/fonts/opensans_regular.ttf"
-  }
+  },
+  "isUseDummyProducts": false,
+  "namiDummyProductsFilePath": "pkg:/source/data/dummyProducts.json",
+  "namiInitialConfigFilePath": "pkg:/source/data/initialConfig.json",
+  "namiSDKPath": "pkg:/source/lib/nami_sdk.pkg"
 }

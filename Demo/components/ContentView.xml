@@ -7,11 +7,11 @@
   </interface>
 
   <children>
-    <!-- TODO : RSS : Add the tabbar for the switching among campaign, profile and entitlements screens -->
+    <MarkupGrid  id="navbar" itemComponentName="NavbarItem"
+      itemSize="[545, 105]"  itemSpacing="[20, 0]"  numRows="1"  numColumns="3"
+      drawFocusFeedback = "false" vertFocusAnimationStyle = "floatingFocus" focusBitmapUri="pkg:/images/ring.9.png" translation="[120,70]"/>
     <CampaignView id="campaignViewControl" visible="false"/>
-
-    <!-- TODO : RSS : Implement the ProfileView and EntitlementView -->
-    <!-- <ProfileView id="profileViewControl" visible="false"/> -->
-    <!-- <EntitlementView id="entitlementViewControl" visible="false"/> -->
+    <ProfileView id="profileViewControl" visible="false"/>
+    <EntitlementView id="entitlementViewControl" visible="false"/>
   </children>
 </component>

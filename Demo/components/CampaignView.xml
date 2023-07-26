@@ -6,11 +6,12 @@
         <field id="namiDataSource" type="node" alwaysNotify="true"/>
         <field id="initialize" type="boolean" value="false" alwaysNotify="true" onChange="onInitializeChanged"/>
         <function name="campaignLaunchHandler" />
+        <function name="campaignCloseHandler" />
     </interface>
 
     <children>
-        <Label id="lTitle" text="Campaigns" horizAlign="center" vertAlign="center" width="1920" height="100" />
-        <Labellist id="llCampaign" visible="false" translation="[710, 150]" itemSize="[500, 48]" />
+        <Labellist id="llCampaign" visible="false" numRows="13" translation="[710, 250]" itemSize="[500, 48]"
+            itemSpacing="[10,10]" vertFocusAnimationStyle = "floatingFocus" focusBitmapUri="pkg:/images/border.9.png" focusedColor="#FFFFFF"/>
         <Label id="lNoItems" text="There are no campaigns available." visible="false" horizAlign="center" vertAlign="center" width="1920" height="1080" />
     </children>
 </component>
