@@ -1,0 +1,30 @@
+name: CI PR Checks
+
+on: pull_request
+
+jobs:
+  eslint:
+    name: bslint
+    permissions:
+      actions: write
+      contents: write
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: 'Checkout ${{ inputs.ref }}'
+        uses: actions/checkout@v2
+        with:
+          path: source
+          ref: '${{ inputs.ref }}'
+
+      - name: Install dependencies
+        run: |
+          yarn install
+
+      - name: Run Linter
+        run: |
+          npx bslint

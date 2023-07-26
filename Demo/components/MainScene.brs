@@ -10,6 +10,7 @@ end sub
 sub setupControls()
     print "Mainscene : setupControls"
     createBusySpinner()
+    m.lError = m.top.findNode("lError")
     m.contentViewControl = m.top.findNode("contentViewControl")
     InitializeNamiSDK()
 end sub
@@ -22,30 +23,20 @@ sub createBusySpinner()
     m.loader.visible = true
 end sub
 
-sub showContentView()
-    print "MainScene : showContentView"
+sub showContentView(isReady as boolean)
+    print "MainScene : showContentView : isReady : " isReady
     hideLoader()
-    m.contentViewControl.initialize = true
-    m.contentViewControl.visible = true
-end sub
+    if isReady
+        m.namiCampaignManager = m.namiManager.namiCampaignManager
+        m.namiCustomerManager = m.namiManager.namiCustomerManager
+        m.namiPaywallManager = m.namiManager.namiPaywallManager
+        m.namiEntitlementManager = m.namiManager.namiEntitlementManager
 
-sub onSDKValidationStatus(event as Dynamic)
-    payload = event.getData()
-    if payload <> invalid
-        if payload <> invalid and payload.status = "none"
-            print "Mainscene : onSDKValidationStatus none : " payload.message
-        else if payload <> invalid and payload.status = "validating"
-            print "Mainscene : onSDKValidationStatus validating : " payload.message
-        else if payload <> invalid and payload.status = "validated"
-            print "Mainscene : onSDKValidationStatus Success " payload.message
-        else if payload <> invalid and payload.status = "fail"
-            print "Mainscene : onSDKValidationStatus Error : " payload.message
-        end if
+        m.contentViewControl.initialize = true
+        m.contentViewControl.visible = true
+    else
+        m.lError.visible = true
     end if
-end sub
-
-sub initialize()
-    m.top.setFocus(true)
 end sub
 
 sub showLoader()
@@ -69,28 +60,20 @@ function getAppConfigFromFile() as Dynamic
     return configJson
 end function
 
-function onPaywallDismissed()
-    print "MainScene : onPaywallDismissed"
-    m.top.paywallScreenDismissed = true
-end function
-
-function onExitApp()
+sub onExitApp()
     hideLoader()
     m.top.outRequest = {"ExitApp": true}
-end function
+end sub
 
 function onKeyEvent(key as String, press as Boolean) as Boolean
     result = false
     if (press)
         print "Mainscene : onKeyEvent : key = " key " press = " press
         if (key = "up" or key = "down")
-        else if (key = "back") then
-            if (m.top.paywallScreenDismissed = false)
-                m.namiPaywallManager.callFunc("dismiss", m.top, "OnPaywallDismissed")
-                result = true
-            else if m.nami <> invalid
+        else if (key = "back")
+            if (m.namiManager.namiStatus = "READY")
                 showLoader()
-                m.nami.callFunc("doTasksBeforeAppExit", m.top, "onExitApp")
+                m.namiManager.callFunc("doTasksBeforeAppExit", m.top, "onExitApp")
                 result = true
             end if
         end if

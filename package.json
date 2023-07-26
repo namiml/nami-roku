@@ -1,0 +1,32 @@
+{
+  "author": {
+    "email": "hello@namiml.com",
+    "name": "Nami ML Inc.",
+    "username": "hellonami"
+  },
+  "dependencies": {
+    "@rokucommunity/bslint": "^0.8.9",
+    "brighterscript": "^0.65.4"
+  },
+  "description": "Nami for Roku - Easy subscriptions & in-app purchases, with powerful built-in paywalls and A/B testing.",
+  "keywords": [
+    "in-app-purchase",
+    "ios",
+    "ipados",
+    "tvos",
+    "paywall",
+    "react-native",
+    "storekit",
+    "subscriptions",
+    "iap",
+    "play-billing",
+    "payments"
+  ],
+  "license": "SEE LICENSE FILE",
+  "main": "index.js",
+  "name": "nami-roku",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.0"
+}

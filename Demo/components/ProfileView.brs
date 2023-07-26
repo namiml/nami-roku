@@ -1,24 +1,41 @@
 sub init()
     m.scene = m.top.getScene()
-    m.namiSDK = m.scene.findNode("namiSDK")
-    m.namiCustomerManager = m.namiSDK.findNode("NamiCustomerManagerObj")
     m.isFirstTime = false
     m.isActionInProcess = false
 
     m.lDeviceId = m.top.findNode("lDeviceId")
     m.lUserInfo = m.top.findNode("lUserInfo")
     m.lJourneyState = m.top.findNode("lJourneyState")
-    m.lInstruction = m.top.findNode("lInstruction")
+    m.userAction = m.top.findNode("userAction")
 
     m.top.observeField("visible", "onVisibleChange")
+    m.top.observeField("focusedChild", "OnFocusedChildChange")
+    m.userAction.observeField("buttonSelected", "onButtonSelected")
+end sub
+
+sub onInitializeChanged(event as dynamic)
+    initialize = event.getData()
+    print "ProfileView : onIntializeChanged : initialize : " initialize
+    if initialize
+        m.namiPaywallManager = m.scene.namiManager.namiPaywallManager
+        m.namiCustomerManager = m.scene.namiManager.namiCustomerManager
+        m.top.namiDataSource.observeField("paywallScreenDismissed", "OnPaywallScreenDismissed")
+        updateProfileView()
+    end if
 end sub
 
 sub onVisibleChange(event as dynamic)
     isVisible = event.getData()
     if isVisible
-        m.lInstruction.setFocus(true)
+        m.userAction.setFocus(true)
         updateProfileView()
     else
+    end if
+end sub
+
+sub OnFocusedChildChange()
+    if m.top.hasFocus()
+        m.userAction.setFocus(true)
     end if
 end sub
 
@@ -27,12 +44,17 @@ sub updateProfileView()
     m.lDeviceId.text = "Device ID: " + m.top.namiDataSource.deviceId
 
     if m.top.namiDataSource.isLoggedIn = true
-        m.lInstruction.text = "Press * to logout"
+        m.userAction.text = "Logout"
         m.lUserInfo.text = "Registered User: External ID: " + m.top.namiDataSource.loggedInId
+        m.userAction.minWidth = "210"
     else
-        m.lInstruction.text = "Press * to login"
+        m.userAction.text = "Login"
         m.lUserInfo.text = "Anonymous User"
+        m.userAction.minWidth = "180"
     end if
+    userActionRect = m.userAction.boundingRect()
+    centerx = (1920 - userActionRect.width) / 2
+    m.userAction.translation = [centerx, 520]
 
     m.scene.callFunc("hideLoader")
 end sub
@@ -61,11 +83,13 @@ sub OnUserActionLogin()
     m.namiCustomerManager.callFunc("login", id)
 end sub
 
-sub onInitializeChanged(event as dynamic)
-    initialize = event.getData()
-    print "CampaignView : onInitializeChanged : initialize : " initialize
-    if initialize
-        updateProfileView()
+sub OnDataSourceUpdated()
+    updateProfileView()
+end sub
+
+sub onButtonSelected()
+    if (m.isActionInProcess = false)
+        OnUserAction()
     end if
 end sub
 
@@ -73,9 +97,8 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     result = false
     if (press)
         print "ProfileView OnKeyEvent: press " press " key : " key
-        if key = "options" and m.isActionInProcess = false
-            OnUserAction()
-            result = true
+        if key = "OK"
+
         end if
     end if
 

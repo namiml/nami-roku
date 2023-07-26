@@ -5,11 +5,10 @@ end sub
 
 sub setupLocals()
     m.scene = m.top.getScene()
-    m.namiSDK = m.scene.namiSDK
-    m.namiManager = m.namiSDK.nami
-    m.namiCustomerManager = m.namiManager.callFunc("getCustomerManager")
-    m.namiCampaignManager = m.namiManager.callFunc("getCampaignManager")
-    m.namiPaywallManager = m.namiManager.callFunc("getPaywallManager")
+    m.namiManager = m.scene.namiManager
+    m.namiCustomerManager = m.namiManager.namiCustomerManager
+    m.namiCampaignManager = m.namiManager.namiCampaignManager
+    m.namiPaywallManager = m.namiManager.namiPaywallManager
 end sub
 
 sub initializeNamiSDKValues()
@@ -21,12 +20,14 @@ sub initializeNamiSDKValues()
     m.top.journeyState = m.namiCustomerManager.callFunc("journeyState")
     m.top.campaigns = m.namiCampaignManager.callFunc("allCampaigns")
 
+    print "NamiDataSource : initializeNamiSDKValues"
     m.namiPaywallManager.callFunc("registerBuySkuHandler", m.top)
     m.namiCustomerManager.callFunc("registerAccountStateHandler", m.top)
     m.namiCustomerManager.callFunc("setCustomerDataPlatformId", "aaaa")
 end sub
 
 function registerBuySkuHandlerCallback(sku as dynamic)
+    print "NamiDataSource : registerBuySkuHandlerCallback : Dismiss Paywall"
     m.namiPaywallManager.callFunc("dismiss", m.top, "OnPaywallDismissed")
 
     ' TODO : RSS : Add purchase flow
@@ -48,7 +49,7 @@ sub showPurchaseDialog(skuDetail)
 end sub
 
 sub closeDialog()
-    if (m.scene.dialog <> invalid) then
+    if (m.scene.dialog <> invalid)
         m.scene.dialog.close = true
         m.scene.dialog = invalid
     end if
@@ -63,9 +64,10 @@ end sub
 sub successfulPurchase()
     isSuccessfulPurchase = true
     if isSuccessfulPurchase
-        purchaseSuccess = m.namiSDK.CreateChild("namiSDK:NamiPurchaseSuccess")
+        purchaseSuccess = m.namiManager.CreateChild("namiSDK:NamiPurchaseSuccess")
         purchaseSuccess.product = m.top.sku
-
+        purchaseSuccess.rokuProductId = m.top.sku.product.id
+        purchaseSuccess.productId = m.top.sku.skuId
         purchaseSuccess.purchaseId = "<PURCHASE_ID>"
         purchaseSuccess.qty = "<QTY>"
         purchaseSuccess.amount = "<AMOUNT>"
@@ -74,7 +76,7 @@ sub successfulPurchase()
         purchaseSuccess.price = "<PRICE>"
         purchaseSuccess.currencyCode = "<CURRENCY_CODE>"
         purchaseSuccess.locale = "<LOCALE>"
-        ' m.namiPaywallManager.callFunc("buySkuComplete", purchaseSuccess)
+        m.namiPaywallManager.callFunc("buySkuComplete", purchaseSuccess)
     end if
     closeDialog()
 end sub
@@ -110,21 +112,21 @@ function onAccountStateChanged(state, isSuccess, error)
         end if
     else
         if state = 0
-            print "error logging in: " + error.message
+            print "ERROR: logging in: "; error.message
         else if state = 1
-            print "error logging out: " + error.message
+            print "ERROR: logging out: "; error.message
         else if state = 2
-            print "error setting advertising id: " + error.message
+            print "ERROR: setting advertising id: "; error.message
         else if state = 3
-            print "error clearing advertising id: " + error.message
+            print "ERROR: clearing advertising id: "; error.message
         else if state = 4
-            print "error setting vendor id: " + error.message
+            print "ERROR: setting vendor id: "; error.message
         else if state = 5
-            print "errot clearing vendor id: " + error.message
+            print "ERROR: clearing vendor id: "; error.message
         else if state = 6
-            print "error in setting cdp id: " + error.message
+            print "ERROR: in setting cdp id: "; error.message
         else if state = 7
-            print "error in clearing dp id: " + error.message
+            print "ERROR: in clearing dp id: "; error.message
         end if
     end if
 end function

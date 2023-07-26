@@ -1,6 +1,8 @@
 sub init()
     m.scene = m.top.getScene()
     m.namiPaywallManager = invalid
+    m.namiCustomerManager = invalid
+    m.namiCampaignManager = invalid
     m.campaignList = invalid
 
     m.llCampaign = m.top.findNode("llCampaign")
@@ -8,6 +10,7 @@ sub init()
 
     m.llCampaign.observeField("itemSelected", "OnItemSelected")
     m.top.observeField("visible", "onVisibleChange")
+    m.top.observeField("focusedChild","OnFocusedChildChange")
 end sub
 
 sub onInitializeChanged(event as dynamic)
@@ -15,9 +18,10 @@ sub onInitializeChanged(event as dynamic)
     print "CampaignView : onInitializeChanged : initialize : " initialize
     if initialize
         m.campaignList = m.top.namiDataSource.campaigns
-        print "CampaignView : onInitializeChanged : Campaign List " m.campaignList
-        m.namiPaywallManager = m.scene.namiSDK.nami.callFunc("getPaywallManager")
-        m.scene.observeField("paywallScreenDismissed", "OnPaywallScreenDismissed")
+        print "CampaignView : onInitializeChanged : Campaign List " ' m.campaignList
+        m.namiPaywallManager = m.scene.namiManager.namiPaywallManager
+        m.namiCustomerManager = m.scene.namiManager.namiCustomerManager
+        m.namiCampaignManager = m.scene.namiManager.namiCampaignManager
         m.top.namiDataSource.observeField("paywallScreenDismissed", "OnPaywallScreenDismissed")
         OnCampaignListReceived()
     end if
@@ -33,6 +37,12 @@ sub onVisibleChange(event as dynamic)
         else
             m.namiPaywallManager.callFunc("deRegisterPaywallParentView", m.top)
         end if
+    end if
+end sub
+
+sub OnFocusedChildChange()
+    if m.top.hasFocus()
+        m.llCampaign.setFocus(true)
     end if
 end sub
 
@@ -55,6 +65,10 @@ sub OnCampaignListReceived()
 
     m.lNoItems.visible = false
 
+    ' deviceInfo = CreateObject("roDeviceInfo")
+    ' id = deviceInfo.GetRandomUUID()
+    ' m.namiCustomerManager.callFunc("login", id)
+
     m.llCampaign.content = parseCampaignList(m.campaignList)
     m.llCampaign.visible = true
 
@@ -74,22 +88,21 @@ end function
 
 sub onItemSelected(event as dynamic)
     selectedIndex = event.getData()
-    m.namiCampaignManager = m.scene.namiSDK.nami.callFunc("getCampaignManager")
-
     paywallLaunchContext = CreateObject("roSGNode", "NamiSDK:PaywallLaunchContext")
     paywallLaunchContext.productGroups = ["group1","group2"]
     paywallLaunchContext.customAttributes = {
         "contextImage": "https://www.exmaple.com/contextImage.png"
     }
 
-    if selectedIndex = 0
-        print "CampaignView : onItemSelected : Launching default campaign"
-        m.namiCampaignManager.callFunc("launchWithHandler", "", paywallLaunchContext, m.top, "campaignLaunchHandler", m.top.namiDataSource, "paywallActionHandler")
-    else
-        print "CampaignView : onItemSelected : Launching Campaign : " m.campaignList[selectedIndex - 1].valueField
-        m.namiCampaignManager.callFunc("launchWithHandler", m.campaignList[selectedIndex - 1].valueField, paywallLaunchContext, m.top, "campaignLaunchHandler", m.top.namiDataSource, "paywallActionHandler")
+    label = ""
+    if selectedIndex <> 0
+        label = m.campaignList[selectedIndex - 1].valueField
     end if
-    m.scene.paywallScreenDismissed = false
+
+    print "CampaignView : onItemSelected : Launching Campaign Label : " label
+
+    m.namiPaywallManager.callFunc("registerCloseHandler", m.top, "campaignCloseHandler")
+    m.namiCampaignManager.callFunc("launchWithHandler", label, paywallLaunchContext, m.top, "campaignLaunchHandler", m.top.namiDataSource, "paywallActionHandler")
 end sub
 
 function campaignLaunchHandler(isSuccess as boolean, error as dynamic)
@@ -106,6 +119,14 @@ function campaignLaunchHandler(isSuccess as boolean, error as dynamic)
     end if
 end function
 
+sub campaignCloseHandler(isSuccess=true as boolean)
+    print "CampaignView : campaignCloseHandler : Is campaign closed successfully : "; isSuccess
+    if (isSuccess)
+        m.llCampaign.setFocus(true)
+    end if
+    ' m.top.namiDataSource.paywallScreenDismissed = isSuccess
+end sub
+
 sub showMessageDialog(error)
     m.dialog = createObject("roSgNode", "StandardMessageDialog")
     m.dialog.title = "ERROR - " + error.domain
@@ -120,7 +141,7 @@ sub showMessageDialog(error)
 end sub
 
 sub closeDialog()
-    if (m.scene.dialog <> invalid) then
+    if (m.scene.dialog <> invalid)
         m.scene.dialog.close = true
         m.scene.dialog = invalid
     end if
