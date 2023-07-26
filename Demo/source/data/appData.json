@@ -1,6 +1,6 @@
 {
-  "appPlatformIdProduction": "69afd940-d7de-4223-bf70-3d3822128edb",
-  "appPlatformIdStaging": "69afd940-d7de-4223-bf70-3d3822128edb",
+  "appPlatformIdProduction": "APP_PLATFORM_ID_PROD",
+  "appPlatformIdStaging": "APP_PLATFORM_ID_STAGING",
   "environment": "staging",
   "fonts": {
     "MuseoSans-500": "pkg:/source/fonts/Museo_Sans-500.otf",
