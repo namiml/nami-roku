@@ -50,18 +50,12 @@ sub getNamiConfig() as object
         appPlatformId = m.global.appConfig.appPlatformIdStaging
     end if
 
-    namiCommands = []
-    if m.global.appConfig.environment = "staging"
-        namiCommands = ["useStagingAPI"]
-    end if
-
     initialConfig = ReadAsciiFile(m.global.appConfig.namiInitialConfigFilePath)
     namiConfig = {
                 appPlatformId   : appPlatformId
                 fonts           : m.global.appConfig.fonts
                 environment     : m.global.appConfig.environment
                 logLevel        : ["info", "warn", "error", "debug"] '
-                namiCommands    : namiCommands
                 initialConfig   : initialConfig
             }
     return namiConfig

@@ -102,7 +102,7 @@ sub onItemSelected(event as dynamic)
     print "CampaignView : onItemSelected : Launching Campaign Label : " label
 
     m.namiPaywallManager.callFunc("registerCloseHandler", m.top, "campaignCloseHandler")
-    m.namiCampaignManager.callFunc("launchWithHandler", label, paywallLaunchContext, m.top, "campaignLaunchHandler", m.top.namiDataSource, "paywallActionHandler")
+    m.namiCampaignManager.callFunc("launchWithHandler", label, invalid, m.top, "campaignLaunchHandler", m.top.namiDataSource, "paywallActionHandler")
 end sub
 
 function campaignLaunchHandler(isSuccess as boolean, error as dynamic)
