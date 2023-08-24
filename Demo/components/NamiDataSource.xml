@@ -20,5 +20,6 @@
         <function name="onPaywallDismissed" />
         <function name='onAccountStateChanged' />
         <function name="paywallActionHandler" />
+        <function name="registerSignInHandlerCallback" />
     </interface>
 </component>

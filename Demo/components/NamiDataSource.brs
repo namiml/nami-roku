@@ -22,9 +22,14 @@ sub initializeNamiSDKValues()
 
     print "NamiDataSource : initializeNamiSDKValues"
     m.namiPaywallManager.callFunc("registerBuySkuHandler", m.top)
+    m.namiPaywallManager.callFunc("registerSignInHandler", m.top)
     m.namiCustomerManager.callFunc("registerAccountStateHandler", m.top)
     m.namiCustomerManager.callFunc("setCustomerDataPlatformId", "aaaa")
 end sub
+
+function registerSignInHandlerCallback()
+    m.namiPaywallManager.callFunc("dismiss", m.top, "OnPaywallDismissed")
+end function
 
 function registerBuySkuHandlerCallback(sku as dynamic)
     print "NamiDataSource : registerBuySkuHandlerCallback : Dismiss Paywall"
