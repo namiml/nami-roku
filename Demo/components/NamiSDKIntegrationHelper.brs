@@ -55,7 +55,7 @@ sub getNamiConfig() as object
                 appPlatformId   : appPlatformId
                 fonts           : m.global.appConfig.fonts
                 environment     : m.global.appConfig.environment
-                logLevel        : ["info", "warn", "error", "debug"] '
+                logLevel        : ["info", "warn", "error", "debug"]
                 initialConfig   : initialConfig
             }
     return namiConfig

@@ -119,8 +119,8 @@ function campaignLaunchHandler(isSuccess as boolean, error as dynamic)
     end if
 end function
 
-sub campaignCloseHandler(isSuccess=true as boolean)
-    print "CampaignView : campaignCloseHandler : Is campaign closed successfully : "; isSuccess
+sub paywallCloseHandler(isSuccess=true as boolean)
+    print "CampaignView : paywallCloseHandler : Is paywall closed successfully : "; isSuccess
     if (isSuccess)
         m.llCampaign.setFocus(true)
     end if
@@ -153,10 +153,28 @@ sub onButtonSelected()
     end if
 end sub
 
+sub availableCampaignsHandlerCallback(isSuccess as boolean)
+    if (isSuccess)
+        m.llCampaign.visible = true
+        m.Scene.callFunc("HideLoader")
+    end if
+end sub
+
+sub refreshData()
+    m.llCampaign.visible = false
+    m.Scene.callFunc("showLoader")
+    m.namiCampaignManager.callFunc("registerAvailableCampaignsHandler", m.top, "availableCampaignsHandlerCallback")
+    m.namiCampaignManager.callFunc("refresh")
+end sub
+
 function onKeyEvent(key as String, press as Boolean) as Boolean
     result = false
     if (press)
         print "CampaignView : onKeyEvent : key = " key " press = " press
+        if (key = "options")
+            refreshData()
+            result = true
+        end if
     end if
     return result
 end function
