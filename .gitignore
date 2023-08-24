@@ -4,3 +4,4 @@ Demo/dist
 Demo/.DS_Store
 Demo/Source/.DS_Store
 Demo/source/paywallResponse.json
+Demo/source/data/initialConfig.json

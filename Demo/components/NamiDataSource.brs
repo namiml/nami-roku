@@ -9,6 +9,7 @@ sub setupLocals()
     m.namiCustomerManager = m.namiManager.namiCustomerManager
     m.namiCampaignManager = m.namiManager.namiCampaignManager
     m.namiPaywallManager = m.namiManager.namiPaywallManager
+    m.billing = createObject("RoSGNode", "RokuBillingTask")
 end sub
 
 sub initializeNamiSDKValues()
@@ -23,23 +24,38 @@ sub initializeNamiSDKValues()
     print "NamiDataSource : initializeNamiSDKValues"
     m.namiPaywallManager.callFunc("registerBuySkuHandler", m.top)
     m.namiPaywallManager.callFunc("registerSignInHandler", m.top)
+    m.namiPaywallManager.callFunc("registerRestoreRequestHandler", m.top)
     m.namiCustomerManager.callFunc("registerAccountStateHandler", m.top)
     m.namiCustomerManager.callFunc("setCustomerDataPlatformId", "aaaa")
 end sub
 
+function registerRestoreHandlerCallback()
+    ' Restore purchase process
+    print "NamiDataSource : registerRestoreHandlerCallback: restore pressed"
+end function
+
 function registerSignInHandlerCallback()
-    m.namiPaywallManager.callFunc("dismiss", m.top, "OnPaywallDismissed")
+    ' Sign in process
+    print "NamiDataSource : registerSignInHandlerCallback: sign in pressed"
 end function
 
 function registerBuySkuHandlerCallback(sku as dynamic)
-    print "NamiDataSource : registerBuySkuHandlerCallback : Dismiss Paywall"
-    m.namiPaywallManager.callFunc("dismiss", m.top, "OnPaywallDismissed")
-
-    ' TODO : RSS : Add purchase flow
     print "NamiDataSource : registerBuySkuHandlerCallback : sku : " sku
     m.top.sku = sku
-    showPurchaseDialog(sku)
+
+    m.billing.observeField("purchaseResult", "OnPurchaseResultReceived")
+    m.billing.purchase = sku.product
 end function
+
+sub OnPurchaseResultReceived(event as dynamic)
+    purchaseResult = event.getData()
+    if purchaseResult <> invalid and purchaseResult.issuccess
+        m.namiPaywallManager.callFunc("dismiss", m.top, "OnPaywallDismissed")
+        showPurchaseDialog(m.top.sku)
+    else
+        print "NamiDataSource : OnPurchaseResultReceived : purchaseResult : " purchaseResult
+    end if
+end sub
 
 sub showPurchaseDialog(skuDetail)
     m.purchaseDialog = createObject("roSgNode", "StandardMessageDialog")
