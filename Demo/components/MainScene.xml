@@ -6,7 +6,6 @@
 
   <interface>
   	<field id="outRequest" type="AssocArray"/>
-    <field id="paywallScreenDismissed" type="boolean" value="true" alwaysNotify="true" />
 
     <function name="showLoader" />
     <function name="hideLoader" />

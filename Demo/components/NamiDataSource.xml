@@ -14,10 +14,7 @@
 
         <field id="isUpdated" type="boolean" alwaysNotify="true"/>
 
-        <field id="paywallScreenDismissed" type="boolean" value="false" alwaysNotify="true" />
-
         <function name="registerBuySkuHandlerCallback" />
-        <function name="onPaywallDismissed" />
         <function name='onAccountStateChanged' />
         <function name="paywallActionHandler" />
         <function name="registerSignInHandlerCallback" />

@@ -19,7 +19,6 @@ sub onIntializeChanged(event as dynamic)
     if initialize
         m.namiPaywallManager = m.scene.namiManager.namiPaywallManager
         m.namiCustomerManager = m.scene.namiManager.namiCustomerManager
-        m.top.namiDataSource.observeField("paywallScreenDismissed", "OnPaywallScreenDismissed")
     end if
 end sub
 
