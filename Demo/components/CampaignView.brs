@@ -22,7 +22,6 @@ sub onInitializeChanged(event as dynamic)
         m.namiPaywallManager = m.scene.namiManager.namiPaywallManager
         m.namiCustomerManager = m.scene.namiManager.namiCustomerManager
         m.namiCampaignManager = m.scene.namiManager.namiCampaignManager
-        m.top.namiDataSource.observeField("paywallScreenDismissed", "OnPaywallScreenDismissed")
         OnCampaignListReceived()
     end if
 end sub
@@ -42,14 +41,6 @@ end sub
 
 sub OnFocusedChildChange()
     if m.top.hasFocus()
-        m.llCampaign.setFocus(true)
-    end if
-end sub
-
-sub OnPaywallScreenDismissed(event as dynamic)
-    isDismissed = event.getData()
-    print "CampaignView : OnPaywallScreenDismissed : " isDismissed
-    if (isDismissed)
         m.llCampaign.setFocus(true)
     end if
 end sub
@@ -80,8 +71,10 @@ function parseCampaignList(campaignList as dynamic)
     node = parentNode.createChild("ContentNode")
     node.title = "default"
     for each campaign in campaignList
-        node = parentNode.createChild("ContentNode")
-        node.title = campaign.valueField
+        if campaign.typeField <> "default"
+            node = parentNode.createChild("ContentNode")
+            node.title = campaign.valueField
+        end if
     end for
     return parentNode
 end function
@@ -101,8 +94,8 @@ sub onItemSelected(event as dynamic)
 
     print "CampaignView : onItemSelected : Launching Campaign Label : " label
 
-    m.namiPaywallManager.callFunc("registerCloseHandler", m.top, "campaignCloseHandler")
-    m.namiCampaignManager.callFunc("launchWithHandler", label, invalid, m.top, "campaignLaunchHandler", m.top.namiDataSource, "paywallActionHandler")
+    m.namiPaywallManager.callFunc("registerCloseHandler", m.top, "paywallCloseHandler")
+    m.namiCampaignManager.callFunc("launchWithHandler", label, paywallLaunchContext, m.top, "campaignLaunchHandler", m.top.namiDataSource, "paywallActionHandler")
 end sub
 
 function campaignLaunchHandler(isSuccess as boolean, error as dynamic)
@@ -124,7 +117,6 @@ sub paywallCloseHandler(isSuccess=true as boolean)
     if (isSuccess)
         m.llCampaign.setFocus(true)
     end if
-    ' m.top.namiDataSource.paywallScreenDismissed = isSuccess
 end sub
 
 sub showMessageDialog(error)
@@ -153,10 +145,10 @@ sub onButtonSelected()
     end if
 end sub
 
-sub availableCampaignsHandlerCallback(isSuccess as boolean)
-    if (isSuccess)
-        m.llCampaign.visible = true
-        m.Scene.callFunc("HideLoader")
+sub availableCampaignsHandlerCallback(campaignsList as dynamic)
+    if campaignsList <> invalid
+        m.campaignList = campaignsList
+        OnCampaignListReceived()
     end if
 end sub
 

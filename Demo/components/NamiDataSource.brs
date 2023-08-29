@@ -50,7 +50,7 @@ end function
 sub OnPurchaseResultReceived(event as dynamic)
     purchaseResult = event.getData()
     if purchaseResult <> invalid and purchaseResult.issuccess
-        m.namiPaywallManager.callFunc("dismiss", m.top, "OnPaywallDismissed")
+        m.namiPaywallManager.callFunc("dismiss")
         showPurchaseDialog(m.top.sku)
     else
         print "NamiDataSource : OnPurchaseResultReceived : purchaseResult : " purchaseResult
@@ -100,11 +100,6 @@ sub successfulPurchase()
         m.namiPaywallManager.callFunc("buySkuComplete", purchaseSuccess)
     end if
     closeDialog()
-end sub
-
-sub onPaywallDismissed()
-    print "NamiDataSource : onPaywallDismissed"
-    m.top.paywallScreenDismissed = true
 end sub
 
 function onAccountStateChanged(state, isSuccess, error)

@@ -31,7 +31,7 @@ sub showContentView(isReady as boolean)
         m.namiCustomerManager = m.namiManager.namiCustomerManager
         m.namiPaywallManager = m.namiManager.namiPaywallManager
         m.namiEntitlementManager = m.namiManager.namiEntitlementManager
-
+        
         m.contentViewControl.initialize = true
         m.contentViewControl.visible = true
     else
