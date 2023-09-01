@@ -19,5 +19,6 @@
         <function name="paywallActionHandler" />
         <function name="registerSignInHandlerCallback" />
         <function name="registerRestoreHandlerCallback" />
+        <function name="deeplinkActionHandlerCallback" />
     </interface>
 </component>
