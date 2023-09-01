@@ -32,6 +32,7 @@ sub onVisibleChange(event as dynamic)
         if isVisible
             ' Register the current view to load the paywallScreen on top of it.
             m.namiPaywallManager.callFunc("registerPaywallParentView", m.top)
+            m.namiCampaignManager.callFunc("registerAvailableCampaignsHandler", m.top, "availableCampaignsHandlerCallback")
             m.llCampaign.setFocus(true)
         else
             m.namiPaywallManager.callFunc("deRegisterPaywallParentView", m.top)
@@ -155,7 +156,6 @@ end sub
 sub refreshData()
     m.llCampaign.visible = false
     m.Scene.callFunc("showLoader")
-    m.namiCampaignManager.callFunc("registerAvailableCampaignsHandler", m.top, "availableCampaignsHandlerCallback")
     m.namiCampaignManager.callFunc("refresh")
 end sub
 

@@ -25,6 +25,7 @@ sub initializeNamiSDKValues()
     m.namiPaywallManager.callFunc("registerBuySkuHandler", m.top)
     m.namiPaywallManager.callFunc("registerSignInHandler", m.top)
     m.namiPaywallManager.callFunc("registerRestoreRequestHandler", m.top)
+    m.namiPaywallManager.callFunc("registerDeeplinkActionHandler", m.top)
     m.namiCustomerManager.callFunc("registerAccountStateHandler", m.top)
     m.namiCustomerManager.callFunc("setCustomerDataPlatformId", "aaaa")
 end sub
@@ -32,11 +33,19 @@ end sub
 function registerRestoreHandlerCallback()
     ' Restore purchase process
     print "NamiDataSource : registerRestoreHandlerCallback: restore pressed"
+    m.namiPaywallManager.callFunc("dismiss")
 end function
 
 function registerSignInHandlerCallback()
     ' Sign in process
     print "NamiDataSource : registerSignInHandlerCallback: sign in pressed"
+    m.namiPaywallManager.callFunc("dismiss")
+end function
+
+function deeplinkActionHandlerCallback(url)
+    ' deeplink url open process
+    print "NamiDataSource : deeplinkActionHandlerCallback : deeplink url : " url
+    m.namiPaywallManager.callFunc("dismiss")
 end function
 
 function registerBuySkuHandlerCallback(sku as dynamic)
