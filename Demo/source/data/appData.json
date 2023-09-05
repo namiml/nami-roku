@@ -3,12 +3,11 @@
   "appPlatformIdStaging": "APP_PLATFORM_ID_STAGING",
   "environment": "staging",
   "fonts": {
-    "MuseoSans-500": "pkg:/source/fonts/Museo_Sans-500.otf",
     "opensans_bold": "pkg:/source/fonts/opensans_bold.ttf",
     "opensans_regular": "pkg:/source/fonts/opensans_regular.ttf"
   },
   "isUseDummyProducts": false,
   "namiDummyProductsFilePath": "pkg:/source/data/dummyProducts.json",
   "namiInitialConfigFilePath": "pkg:/source/data/initialConfig.json",
-  "namiSDKPath": "https://packages.namiml.com/NamiSDK/Roku/NamiRoku.pkg"
+  "namiSDKPath": "https://packages.namiml.com/NamiSDK/Roku/NamiRoku-1.4.pkg"
 }

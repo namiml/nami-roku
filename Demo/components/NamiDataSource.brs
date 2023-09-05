@@ -32,14 +32,14 @@ end sub
 
 function registerRestoreHandlerCallback()
     ' Restore purchase process
-    print "NamiDataSource : registerRestoreHandlerCallback: restore pressed"
     m.namiPaywallManager.callFunc("dismiss")
+    print "NamiDataSource : registerRestoreHandlerCallback: restore pressed"
 end function
 
 function registerSignInHandlerCallback()
     ' Sign in process
-    print "NamiDataSource : registerSignInHandlerCallback: sign in pressed"
     m.namiPaywallManager.callFunc("dismiss")
+    print "NamiDataSource : registerSignInHandlerCallback: sign in pressed"
 end function
 
 function deeplinkActionHandlerCallback(url)
