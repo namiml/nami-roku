@@ -3,7 +3,6 @@ sub InitializeNamiSDK()
     print "NamiSDKIntegrationHelper : InitializeNamiSDK : Loading SDK, Path : " m.global.appConfig.namiSDKPath
     m.namiSDK = m.top.createChild("ComponentLibrary")
     m.namiSDK.id = "namiSDK"
-    m.top.appendChild(m.bitmovinPlayerSDK)
     m.namiSDK.observeField("loadStatus", "onSDKLoadStatusChanged")
     m.namiSDK.uri = m.global.appConfig.namiSDKPath
 end sub
