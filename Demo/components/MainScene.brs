@@ -11,6 +11,7 @@ sub setupControls()
     print "Mainscene : setupControls"
     createBusySpinner()
     m.lError = m.top.findNode("lError")
+    m.lVersion = m.top.findNode("lVersion")
     m.contentViewControl = m.top.findNode("contentViewControl")
     InitializeNamiSDK()
 end sub
@@ -34,6 +35,8 @@ sub showContentView(isReady as boolean)
 
         m.contentViewControl.initialize = true
         m.contentViewControl.visible = true
+
+        m.lVersion.text = "NAMI SDK Version : " + m.namiManager.namiSDKVersion
     else
         m.lError.visible = true
     end if

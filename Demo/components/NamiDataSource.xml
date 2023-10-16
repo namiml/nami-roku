@@ -11,6 +11,7 @@
         <field id="journeyState" type="node" />
         <field id="campaigns" type="array" />
         <field id="sku" type="node"/>
+        <field id="purchaseResult" type="assocArray"/>
 
         <field id="isUpdated" type="boolean" alwaysNotify="true"/>
 
@@ -20,5 +21,6 @@
         <function name="registerSignInHandlerCallback" />
         <function name="registerRestoreHandlerCallback" />
         <function name="deeplinkActionHandlerCallback" />
+        <function name="OnPurchaseResultChanged" />
     </interface>
 </component>
