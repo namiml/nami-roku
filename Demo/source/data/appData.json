@@ -9,5 +9,5 @@
   "isUseDummyProducts": false,
   "namiDummyProductsFilePath": "pkg:/source/data/dummyProducts.json",
   "namiInitialConfigFilePath": "pkg:/source/data/initialConfig.json",
-  "namiSDKPath": "https://packages.namiml.com/NamiSDK/Roku/NamiRoku-1.7.pkg"
+  "namiSDKPath": "https://packages.namiml.com/NamiSDK/Roku/NamiRoku-2.0.pkg"
 }
