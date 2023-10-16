@@ -9,6 +9,7 @@ sub setupLocals()
     m.namiCustomerManager = m.namiManager.namiCustomerManager
     m.namiCampaignManager = m.namiManager.namiCampaignManager
     m.namiPaywallManager = m.namiManager.namiPaywallManager
+    m.namiPurchaseManager = m.namiManager.namiPurchaseManager
     m.billing = createObject("RoSGNode", "RokuBillingTask")
 end sub
 
@@ -28,6 +29,7 @@ sub initializeNamiSDKValues()
     m.namiPaywallManager.callFunc("registerDeeplinkActionHandler", m.top)
     m.namiCustomerManager.callFunc("registerAccountStateHandler", m.top)
     m.namiCustomerManager.callFunc("setCustomerDataPlatformId", "aaaa")
+    m.namiPurchaseManager.callFunc("registerPurchasesChangedHandler", m.top, "OnPurchaseResultChanged")
 end sub
 
 function registerRestoreHandlerCallback()
@@ -60,6 +62,7 @@ sub OnPurchaseResultReceived(event as dynamic)
     purchaseResult = event.getData()
     if purchaseResult <> invalid and purchaseResult.issuccess
         m.namiPaywallManager.callFunc("dismiss")
+        m.top.purchaseResult = purchaseResult
         showPurchaseDialog(m.top.sku)
     else
         print "NamiDataSource : OnPurchaseResultReceived : purchaseResult : " purchaseResult
@@ -93,19 +96,23 @@ end sub
 
 sub successfulPurchase()
     isSuccessfulPurchase = true
-    if isSuccessfulPurchase
+    if isSuccessfulPurchase and m.top.purchaseResult <> invalid
+        cost = m.top.sku.product.cost
+        purchaseResult = m.top.purchaseResult
         purchaseSuccess = m.namiManager.CreateChild("namiSDK:NamiPurchaseSuccess")
         purchaseSuccess.product = m.top.sku
         purchaseSuccess.rokuProductId = m.top.sku.product.id
         purchaseSuccess.productId = m.top.sku.skuId
-        purchaseSuccess.purchaseId = "<PURCHASE_ID>"
-        purchaseSuccess.qty = "<QTY>"
-        purchaseSuccess.amount = "<AMOUNT>"
-        purchaseSuccess.originalPurchaseDate = "<ORIGINAL_PURCHASE_DATE>"
-        purchaseSuccess.purchaseDate = "<PURCHASE_DATE>"
-        purchaseSuccess.price = "<PRICE>"
-        purchaseSuccess.currencyCode = "<CURRENCY_CODE>"
+        purchaseSuccess.purchaseId = purchaseResult.purchaseId
+        purchaseSuccess.qty = purchaseResult.qty
+        purchaseSuccess.amount = cost.Mid(1, cost.Len())
+        purchaseSuccess.originalPurchaseDate = "/Date(1694416919877+0000)/" 'Get from transaction
+        purchaseSuccess.originalTransactionID = purchaseResult.purchaseId
+        purchaseSuccess.purchaseDate = "/Date(1694416919877+0000)/" 'Get from transaction
+        purchaseSuccess.price = cost.Mid(1, cost.Len())
+        purchaseSuccess.currencyCode = "usd" 'Get from transaction
         purchaseSuccess.locale = "<LOCALE>"
+        purchaseSuccess.expiresDate = "/Date(1695021719877+0000)/" 'Get from transaction
         m.namiPaywallManager.callFunc("buySkuComplete", purchaseSuccess)
     end if
     closeDialog()
@@ -160,4 +167,8 @@ function paywallActionHandler(paywallAction as dynamic)
     print "NamiDataSource : In paywallActionHandler ---> "
     print paywallAction
     print "NamiDataSource : <--- "
+end function
+
+function OnPurchaseResultChanged(purchase)
+    print "NamiDataSource : In OnPurchaseResultChanged : " purchase
 end function
