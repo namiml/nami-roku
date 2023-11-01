@@ -19,5 +19,6 @@
             <Poster width="50" height="50" loadWidth="50" loadHeight="50" uri="pkg:/images/star_button.png" translation="[100,0]"/>
             <Label text="to refresh" height="50" vertAlign="center" translation="[160,0]"/>
         </Group>
+        <Label id="lVersion" font = "font:SmallestSystemFont" horizAlign="left" vertAlign="center" translation="[50,1020]"/>
     </children>
 </component>
