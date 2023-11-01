@@ -171,4 +171,5 @@ end function
 
 function OnPurchaseResultChanged(purchase)
     print "NamiDataSource : In OnPurchaseResultChanged : " purchase
+    print "NamiDataSource : transaction details in purchase : " purchase.transaction
 end function

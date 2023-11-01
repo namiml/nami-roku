@@ -1,7 +1,7 @@
 title=Nami SDK Demo
 major_version=2
 minor_version=0
-build_version=101320230
+build_version=110120230
 
 mm_icon_focus_hd=pkg:/images/icon_hd.png
 mm_icon_side_hd=pkg:/images/icon_hd.png

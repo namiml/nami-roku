@@ -18,6 +18,5 @@
       <Label id="lError" text="SDK Initialization failed." translation="[0,490]" horizAlign="center" vertAlign="center" width="1920" height="100" visible="false"/>
       <ContentView id="contentViewControl" visible="false" translation="[0, 0]"/>
       <BusySpinner id="loader" translation="[860,420]" control="start" clockwise="true" spinInterval="0.8"/>
-      <Label id="lVersion" font = "font:SmallestSystemFont" horizAlign="left" vertAlign="center" translation="[50,1020]"/>
   </children>
 </component>

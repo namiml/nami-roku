@@ -7,6 +7,7 @@ sub init()
 
     m.llCampaign = m.top.findNode("llCampaign")
     m.lNoItems = m.top.findNode("lNoItems")
+    m.lVersion = m.top.findNode("lVersion")
 
     m.llCampaign.observeField("itemSelected", "OnItemSelected")
     m.top.observeField("visible", "onVisibleChange")
@@ -23,6 +24,9 @@ sub onInitializeChanged(event as dynamic)
         m.namiCustomerManager = m.scene.namiManager.namiCustomerManager
         m.namiCampaignManager = m.scene.namiManager.namiCampaignManager
         OnCampaignListReceived()
+    end if
+    if m.scene.namiManager <> invalid and m.scene.namiManager.namiSDKVersion <> invalid
+        m.lVersion.text = "NAMI SDK Version : " + m.scene.namiManager.namiSDKVersion
     end if
 end sub
 
