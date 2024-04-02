@@ -10,6 +10,7 @@ sub setupLocals()
     m.namiCampaignManager = m.namiManager.namiCampaignManager
     m.namiPaywallManager = m.namiManager.namiPaywallManager
     m.namiPurchaseManager = m.namiManager.namiPurchaseManager
+    m.namiEntitlementManager = m.namiManager.namiEntitlementManager
     m.billing = createObject("RoSGNode", "RokuBillingTask")
 end sub
 
@@ -17,10 +18,9 @@ sub initializeNamiSDKValues()
     m.top.isLoggedIn = m.namiCustomerManager.callFunc("isLoggedIn")
     m.top.loggedInId = m.namiCustomerManager.callFunc("loggedInId")
     m.top.deviceId = m.namiCustomerManager.callFunc("deviceId")
-    m.top.showLinkedPaywall = false
-    m.top.activeEntitlements = []
     m.top.journeyState = m.namiCustomerManager.callFunc("journeyState")
     m.top.campaigns = m.namiCampaignManager.callFunc("allCampaigns")
+    m.top.activeEntitlements = m.namiEntitlementManager.callFunc("active")
 
     print "NamiDataSource : initializeNamiSDKValues"
     m.namiPaywallManager.callFunc("registerBuySkuHandler", m.top)

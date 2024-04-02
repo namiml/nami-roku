@@ -5,7 +5,7 @@ sub init()
     m.profileViewControl = m.top.findNode("profileViewControl")
     m.entitlementViewControl = m.top.findNode("entitlementViewControl")
 
-    m.navbarEntries = ["Campaigns", "Profile"] 'Add when show list "Entitlements"
+    m.navbarEntries = ["Campaigns", "Profile", "Entitlements"]
     m.navbar.observeField("itemSelected","OnNavbarItemSelected")
 end sub
 
