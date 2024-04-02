@@ -4,10 +4,20 @@
 
     <interface>
         <field id="namiDataSource" type="node" alwaysNotify="true"/>
-        <field id="initialize" type="boolean" value="false" alwaysNotify="true" onChange="onIntializeChanged"/>
+        <field id="initialize" type="boolean" value="false" alwaysNotify="true" onChange="onInitializeChanged"/>
+        <function name="activeEntitlementsHandlerCallback" />
     </interface>
 
     <children>
-        <Label id="lTitle" text="Coming soon..." horizAlign="center" vertAlign="center" width="1920" height="100"/>
+        <Labellist id="llActiveEntitlements" visible="false" numRows="13" translation="[250, 250]" itemSize="[500, 48]"
+            itemSpacing="[10,10]" vertFocusAnimationStyle = "floatingFocus" focusBitmapUri="pkg:/images/border.9.png" focusedColor="#FFFFFF"/>
+        <Labellist id="llPurchasedSkus" visible="false" numRows="4" translation="[850, 250]" itemSize="[500, 48]"
+            itemSpacing="[10,10]" vertFocusAnimationStyle = "floatingFocus" focusBitmapUri="pkg:/images/border.9.png" focusedColor="#FFFFFF"/>
+        <Label id="lNoItems" text="There are no active entitlements." visible="false" horizAlign="center" vertAlign="center" width="1920" height="1080" />
+        <Group translation="[1520, 1000]">
+            <Label text="Press" height="50" vertAlign="center"/>
+            <Poster width="50" height="50" loadWidth="50" loadHeight="50" uri="pkg:/images/star_button.png" translation="[100,0]"/>
+            <Label text="to refresh" height="50" vertAlign="center" translation="[160,0]"/>
+        </Group>
     </children>
 </component>
