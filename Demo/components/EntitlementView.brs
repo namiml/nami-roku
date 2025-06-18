@@ -1,4 +1,5 @@
 sub init()
+    print "init EntitlementView"
     m.scene = m.top.getScene()
     m.lTitle = m.top.findNode("lTitle")
     m.activeEntitlementList = invalid

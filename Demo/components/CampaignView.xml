@@ -11,14 +11,44 @@
     </interface>
 
     <children>
-        <Labellist id="llCampaign" visible="false" numRows="13" translation="[710, 250]" itemSize="[500, 48]"
-            itemSpacing="[10,10]" vertFocusAnimationStyle = "floatingFocus" focusBitmapUri="pkg:/images/border.9.png" focusedColor="#FFFFFF"/>
+        <!-- <Labellist id="llCampaign" visible="false" numRows="13" translation="[100, 250]" itemSize="[500, 48]"
+            itemSpacing="[10,10]" vertFocusAnimationStyle = "floatingFocus" focusBitmapUri="pkg:/images/border.9.png" focusedColor="#FFFFFF"/> -->
+        <CustomRowlist id="llCampaign"
+          visible="false"
+          numRows="7"
+          numColumns = "3"
+          translation="[100, 250]"
+          itemSize="[540, 100]"
+          itemSpacing="[0,10]"
+          vertFocusAnimationStyle = "floatingFocus"
+          drawFocusFeedback="false"
+          columnWidths = "[540, 170, 370]"
+          columnSpacings = "[0, 0, 0]"
+          itemComponentName="CampaignItem"/>
         <Label id="lNoItems" text="There are no campaigns available." visible="false" horizAlign="center" vertAlign="center" width="1920" height="1080" />
-        <Group translation="[1520, 1000]">
-            <Label text="Press" height="50" vertAlign="center"/>
-            <Poster width="50" height="50" loadWidth="50" loadHeight="50" uri="pkg:/images/star_button.png" translation="[100,0]"/>
-            <Label text="to refresh" height="50" vertAlign="center" translation="[160,0]"/>
-        </Group>
+
+        <Poster id="asyncVideoGroup" uri="pkg:/images/filled.9.png" width="550" height="400" translation="[1280, 340]" blendColor="#A0A0A0">
+            <Label text="Set Async:" translation="[50, 50]" color="#000000"/>
+            <LayoutGroup id="videoButtons" translation="[50,100]" layoutDirection="vert" itemSpacings="[10]">
+              <LayoutGroup layoutDirection="horiz" itemSpacings="[10]" vertAlignment="center">
+                  <Poster id="pvButton" width="180" height="65" blendColor="#404040" uri="pkg:/images/filled.9.png">
+                    <Label id="vbuttonText" width="180" text="Video" height = "65" horizAlign="center" vertAlign="center" color="#FFFFFF"/>
+                  </Poster>
+                  <Poster id="asyncVideo" width="50" height="50" uri="pkg:/images/check.png" visible="false"/>
+              </LayoutGroup>
+              <LayoutGroup layoutDirection="horiz" itemSpacings="[10]" vertAlignment="center">
+                  <Poster id="pv1Button" width="180" height="65" blendColor="#404040" uri="pkg:/images/filled.9.png">
+                    <Label id="v1buttonText" text="Video2" width="180" height = "65" horizAlign="center" vertAlign="center" color="#FFFFFF"/>
+                  </Poster>
+                  <Poster id="asyncVideo1" width="50" height="50" uri="pkg:/images/check.png" visible="false"/>
+              </LayoutGroup>
+            </LayoutGroup>
+            <Group translation="[120, 320]">
+                <Label text="Press" height="50" vertAlign="center" color="#000000"/>
+                <Poster width="50" height="50" loadWidth="50" loadHeight="50" uri="pkg:/images/star_button.png" translation="[100,0]"/>
+                <Label text="to refresh" height="50" vertAlign="center" translation="[160,0]" color="#000000"/>
+            </Group>
+        </Poster>
         <Label id="lVersion" font = "font:SmallestSystemFont" horizAlign="left" vertAlign="center" translation="[50,1020]"/>
     </children>
 </component>

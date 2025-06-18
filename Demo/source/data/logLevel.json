@@ -1,0 +1,14 @@
+[
+  {
+    "key":"Debug",
+    "value":"debug"
+  },
+  {
+    "key":"Info",
+    "value":"info"
+  },
+  {
+    "key":"Warn",
+    "value":"warn"
+  }
+]

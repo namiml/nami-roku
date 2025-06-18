@@ -20,6 +20,8 @@
         <function name="paywallActionHandler" />
         <function name="registerSignInHandlerCallback" />
         <function name="registerRestoreHandlerCallback" />
+        <function name="registerStepHandoffCallback" />
+        <function name="registerEventHandlerCallback" />
         <function name="deeplinkActionHandlerCallback" />
         <function name="OnPurchaseResultChanged" />
     </interface>

@@ -6,6 +6,8 @@
 
   <interface>
   	<field id="outRequest" type="AssocArray"/>
+    <field id="namiConfig" type="AssocArray" onChange="onNamiConfigration"/>
+    <field id="isCampaignRecieved" type="boolean" value="false" onChange="OnCampaignRecieved"/>
 
     <function name="showLoader" />
     <function name="hideLoader" />
@@ -16,7 +18,8 @@
   <children>
       <Rectangle color="#000000" width="1920" height="1080"/>
       <Label id="lError" text="SDK Initialization failed." translation="[0,490]" horizAlign="center" vertAlign="center" width="1920" height="100" visible="false"/>
-      <ContentView id="contentViewControl" visible="false" translation="[0, 0]"/>
-      <BusySpinner id="loader" translation="[860,420]" control="start" clockwise="true" spinInterval="0.8"/>
+      <Group id="gContentView"/>
+      <NamiConfigration id="namiConfigration" visible="false" translation="[150, 50]"/>
+      <BusySpinner id="loader" translation="[860,420]" control="start" clockwise="true" spinInterval="0.8" visible="false"/>
   </children>
 </component>

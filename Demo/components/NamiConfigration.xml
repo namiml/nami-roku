@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="NamiConfigration" extends="Group">
+  <script type="text/brightscript" uri="pkg:/components/NamiConfigration.brs" />
+
+  <interface>
+      <field id="appPlatformId" type="String" alwaysNotify="true"/>
+      <field id="hostname" type="String" alwaysNotify="true"/>
+  </interface>
+
+  <children>
+    <LayoutGroup id="mainLG" layoutDirection="vert" itemSpacings="[10]">
+        <LayoutGroup id="namiHostLG" layoutDirection="horiz" itemSpacings="[5]" vertAlignment="center">
+            <Label id="lNamiHost" text="Nami Host" width="200"/>
+            <Group id="gNamiHost">
+                <Poster id="namiHostFocusImage" width="70" height="70" uri="pkg:/images/focus/R16Filled_62px_fhd.9.png" visible="false"/>
+                <MultiStyleLabel id="currentNamiHost" text="Staging" width="70" height="70" vertAlign="center" horizAlign="center"/>
+                <Poster id="namiHostGroup" width="70" height="70" uri="pkg:/images/focus/R16T2_56px_fhd.9.png"/>
+                <MultiStyleLabel id="hiddenNamiHostLabel" text="" visible="false"/>
+            </Group>
+        </LayoutGroup>
+
+        <LayoutGroup id="appPlatformLG" layoutDirection="horiz" itemSpacings="[5]" vertAlignment="center"/>
+
+        <LayoutGroup id="logLevelLG" layoutDirection="horiz" itemSpacings="[5]" vertAlignment="center">
+            <Label id="llogLevel" text="Log Level" width="200"/>
+            <Group id="gLogLevel">
+                <Poster id="logLevelFocusImage" width="70" height="70" uri="pkg:/images/focus/R16Filled_62px_fhd.9.png" visible="false"/>
+                <MultiStyleLabel id="currentLogLevel" text="Staging" width="70" height="70" vertAlign="center" horizAlign="center"/>
+                <Poster id="logLevelGroup" width="70" height="70" uri="pkg:/images/focus/R16T2_56px_fhd.9.png"/>
+                <MultiStyleLabel id="hiddenLogLevelLabel" text="" visible="false"/>
+            </Group>
+        </LayoutGroup>
+
+        <LayoutGroup id="languageLG" layoutDirection="horiz" itemSpacings="[5]" vertAlignment="center">
+            <Label id="lLanguage" text="Language" width="200"/>
+            <Group id="glanguage">
+                <Poster id="languageFocusImage" width="70" height="70" uri="pkg:/images/focus/R16Filled_62px_fhd.9.png" visible="false"/>
+                <MultiStyleLabel id="currentLanguage" text="Staging" width="70" height="70" vertAlign="center" horizAlign="center"/>
+                <Poster id="languageGroup" width="70" height="70" uri="pkg:/images/focus/R16T2_56px_fhd.9.png"/>
+                <MultiStyleLabel id="hiddenLanguageLabel" text="" visible="false"/>
+            </Group>
+        </LayoutGroup>
+
+        <Poster id="pButton" height="75" width="400" blendColor="#404040" uri="pkg:/images/filled.9.png">
+            <Label id="buttonText" text="Configure Nami SDK" width="400" height = "75" horizAlign="center" vertAlign="center" color="#FFFFFF"/>
+        </Poster>
+    </LayoutGroup>
+  </children>
+</component>
