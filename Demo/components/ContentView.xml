@@ -4,12 +4,14 @@
 
   <interface>
     <field id="initialize" type="boolean" value="false" alwaysNotify="true" onChange="onInitializeChanged"/>
+    <field id="menuWidth" type="integer" alwaysNotify="true" onChange="onMenuWidthChanged"/>
   </interface>
 
   <children>
-    <MarkupGrid  id="navbar" itemComponentName="NavbarItem"
-      itemSize="[545, 105]"  itemSpacing="[20, 0]"  numRows="1"  numColumns="3"
-      drawFocusFeedback = "false" vertFocusAnimationStyle = "floatingFocus" focusBitmapUri="pkg:/images/ring.9.png" translation="[120,70]"/>
+    <Poster id="pShade" height="75"  width="710" uri="pkg:/images/white_fill_corner_radius_fhd_10.9.png" blendColor="#808080">
+			<Group id="gTopMenu"/>
+		</Poster>
+    <Label id="selectedPageTitle" width="1920" horizAlign="center" translation="[0, 170]"/>
     <CampaignView id="campaignViewControl" visible="false"/>
     <ProfileView id="profileViewControl" visible="false"/>
     <EntitlementView id="entitlementViewControl" visible="false"/>

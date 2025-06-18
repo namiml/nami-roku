@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <component name="CustomMenuList" extends="RowList">
+
+    <interface>
+		<field id="MenuItems" type="array" alwaysNotify="true" onChange="OnMenuItemChange"/>
+
+        <field id="SetFirstItemSelected" type="boolean" value="false" alwaysNotify="true"/>
+        <field id="MenuFocusedHeight" type="integer"/>
+       <field id="MenuFocusedWidth" type="integer" value="0"/>
+        <field id="MenuFocusedYPos" type="float" value="50"/>
+        <field id="lastKeyPress" type="string" />
+        <field id="selectedMenu" type="string" />
+        <field id="longKeyPressed" type="boolean" value="false"/>
+        <field id="keyPress" type="assocArray" alwaysNotify="true"/>
+        <field id="totalWidth" type="integer"/>
+        <field id="customRowItemSelected" type="array" alwaysNotify="true" />
+        <field id="lastMenuFocus" type="node"/>
+    </interface>
+
+    <script type="text/brightscript" uri="CustomMenuList.brs" />
+
+    <children>
+        <Label id="test" horizAlign="center" vertAlign="center" visible="false" height="36"/>
+    </children>
+</component>

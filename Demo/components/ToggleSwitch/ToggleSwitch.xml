@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="ToggleSwitch" extends="Group">
+  <script type="text/brightscript" uri="ToggleSwitch.brs"/>
+  <interface>
+      <field id="toggleSwitchOn" type="boolean" value="false" onChange="OnToggleSwitchSet"/>
+      <field id="isEnable" type="boolean" value="false" onChange="OnOffToggle"/>
+      <field id="rightLabel" type="string" alias="rightText.text"/>
+      <field id="leftLabel" type="string" alias="leftText.text"/>
+  </interface>
+  <children>
+    <Group id="gSwitch" translation = "[0,0]" clippingRect="[0,0,1620,80]">
+      <MaskGroup id="maskGrp" maskSize= "[1620,80]" maskUri = "pkg:/images/icons/mask1620_80.png" translation="[0,0]" >
+        <Poster id="pToggleBox" width="1620" height="80" uri="pkg:/images/icons/toggleBox.9.png" translation="[0,0]" opacity="0.7" blendColor="#2C2C2C"/>
+        <Poster id="turnOn" width="810" height="80" uri="pkg:/images/icons/toggleBox.9.png" translation="[0,0]" visible="false"/>
+        <Poster id="turnOff" width="810" height="80" uri="pkg:/images/icons/toggleBox.9.png" translation="[0,0]" visible="false"/>
+        <Label id="rightText" width="810" height="80" horizAlign="center" vertAlign="center" translation="[810,0]" font="font:SmallestBoldSystemFont"/>
+        <Label id="leftText" width="810" height="80" horizAlign="center" vertAlign="center" translation="[0,0]" font="font:SmallestBoldSystemFont"/>
+      </MaskGroup>
+    </Group>
+    <Animation id="toggleOffAnimation" duration="0.5">
+      <Vector2DFieldInterpolator key="[0.0, 0.1, 0.9, 1.0]" keyValue="[[810.0,0.0],[810.0,0.0],[0.0,0.0],[0.0,0.0]]"  fieldToInterp="turnOn.translation" />
+      <Vector2DFieldInterpolator key="[0.0, 0.1, 0.9, 1.0]" keyValue="[[810.0,0.0],[810.0,0.0],[0.0,0.0],[0.0,0.0]]"  fieldToInterp="turnOff.translation" />
+    </Animation>
+
+    <Animation id="toggleOnAnimation" duration="0.5">
+      <Vector2DFieldInterpolator key="[0.0, 0.1, 0.9, 1.0]" keyValue="[[0.0,0.0],[0.0,0.0],[810.0, 0.0],[810.0,0.0]]"  fieldToInterp="turnOff.translation" />
+      <Vector2DFieldInterpolator key="[0.0, 0.1, 0.9, 1.0]" keyValue="[[0.0,0.0],[0.0,0.0],[810.0,0.0],[810.0,0.0]]"  fieldToInterp="turnOn.translation" />
+    </Animation>
+  </children>
+</component>

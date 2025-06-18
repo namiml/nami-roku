@@ -1,13 +1,13 @@
 {
+  "namiSDKPath": "https://packages.namiml.com/NamiSDK/Roku/NamiRoku-2.10.pkg",
+  "namiInitialConfigFilePath": "pkg:/source/data/initialConfig.json",
   "appPlatformIdProduction": "APP_PLATFORM_ID_PROD",
   "appPlatformIdStaging": "APP_PLATFORM_ID_STAGING",
   "environment": "staging",
+  "isUseDummyProducts": true,
+  "namiDummyProductsFilePath": "pkg:/source/data/dummyProducts.json",
   "fonts": {
     "opensans_bold": "pkg:/source/fonts/opensans_bold.ttf",
     "opensans_regular": "pkg:/source/fonts/opensans_regular.ttf"
-  },
-  "isUseDummyProducts": false,
-  "namiDummyProductsFilePath": "pkg:/source/data/dummyProducts.json",
-  "namiInitialConfigFilePath": "pkg:/source/data/initialConfig.json",
-  "namiSDKPath": "https://packages.namiml.com/NamiSDK/Roku/NamiRoku-2.3.pkg"
+  }
 }

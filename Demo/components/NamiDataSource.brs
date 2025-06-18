@@ -1,4 +1,5 @@
 sub init()
+    print "init NamiDataSource"
     setupLocals()
     initializeNamiSDKValues()
 end sub
@@ -156,7 +157,7 @@ function onAccountStateChanged(state, isSuccess, error)
         else if state = 5
             print "ERROR: clearing vendor id: "; error.message
         else if state = 6
-            print "ERROR: in setting cdp id: "; error.message
+            print "ERROR: in setting cdp id: "; error
         else if state = 7
             print "ERROR: in clearing dp id: "; error.message
         end if

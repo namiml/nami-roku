@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- ********** Copyright 2015 Roku Corp.  All Rights Reserved. ********** -->
+
+<component name="RokuBillingTask" extends="Task">
+    <script type="text/brightscript"  uri="RokuBillingTask.brs"/>
+
+    <interface>
+        <field id="purchase" type="assocarray" alwaysNotify="true" onChange="OnPurchaseChanged"/>
+        <field id="purchaseResult" type="assocarray" alwaysNotify="true"/>
+    </interface>
+</component>

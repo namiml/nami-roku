@@ -1,7 +1,0 @@
-<?xml version = "1.0" encoding = "utf-8" ?>
-<component name = "NavbarContent" extends = "ContentNode" >
-    <interface>
-       <field id = "title" type="string"/>
-       <field id = "isSelected" type="boolean" value="false"/>
-    </interface>
-</component>

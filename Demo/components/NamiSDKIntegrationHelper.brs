@@ -1,10 +1,11 @@
 ' Creates the component library node and loads the namiSDK from the URI mentioned in the appData.json as namiSDKPath
-sub InitializeNamiSDK()
+sub InitializeNamiSDK(namiConfig)
     print "NamiSDKIntegrationHelper : InitializeNamiSDK : Loading SDK, Path : " m.global.appConfig.namiSDKPath
     m.namiSDK = m.top.createChild("ComponentLibrary")
     m.namiSDK.id = "namiSDK"
     m.namiSDK.observeField("loadStatus", "onSDKLoadStatusChanged")
     m.namiSDK.uri = m.global.appConfig.namiSDKPath
+    m.namiConfig = namiConfig
 end sub
 
 ' Creates the SDK wrapper once the component library node successfully loads the namiSDK
@@ -44,18 +45,14 @@ sub getNamiConfig() as object
         end if
     end if
 
-    appPlatformId = m.global.appConfig.appPlatformIdProduction
-    if m.global.appConfig.environment = "staging"
-        appPlatformId = m.global.appConfig.appPlatformIdStaging
-    end if
-
     initialConfig = ReadAsciiFile(m.global.appConfig.namiInitialConfigFilePath)
     namiConfig = {
-                appPlatformId   : appPlatformId
+                appPlatformId   : m.namiConfig.appPlatformId
                 fonts           : m.global.appConfig.fonts
                 environment     : m.global.appConfig.environment
-                logLevel        : ["info", "warn", "error", "debug"]
-                initialConfig   : initialConfig
+                logLevel        : m.namiConfig.logLevel
+                namiHost        : m.namiConfig.namiHost
+                language        : m.namiConfig.language
             }
     return namiConfig
 end sub

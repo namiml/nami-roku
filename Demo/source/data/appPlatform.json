@@ -1,0 +1,12 @@
+{
+  "usprod": [
+    {
+      "key":"Your Stage App",
+      "value":"69afd940-d7de-4223-bf70-3d3822128edb"
+    },
+    {
+      "key":"Your Prod App",
+      "value":"c7374739-7ff0-4db9-afbb-e6f629c54f37"
+    }
+  ]
+}

@@ -9,13 +9,12 @@
 
     <children>
         <Group translation="[0, 200]">
-            <Label id="lTitle" text="Profile" horizAlign="center" vertAlign="center" width="1920" height="100"/>
             <Label id="lDeviceId" text="" horizAlign="center" vertAlign="center" width="1920" height="100" translation="[0, 100]"/>
             <Label id="lUserInfo" text="" horizAlign="center" vertAlign="center" width="1920" height="100" translation="[0, 200]"/>
             <Label id="lJourneyState" text="" horizAlign="center" vertAlign="center" width="1920" height="780" translation="[0, 300]" />
-            <Button id="userAction" text="Login" showFocusFootprint="true" minWidth="180" textColor="#FFFFFF"
-              iconUri="" focusedIconUri="" focusFootprintBitmapUri="pkg:/images/border.9.png"
-              focusBitmapUri="pkg:/images/filled.9.png"/>
+            <Poster id="userAction" width="180" height="75" blendColor="#404040" uri="pkg:/images/filled.9.png">
+              <Label id="buttonText" text="Login" width="180" height="75" horizAlign="center" vertAlign="center" color="#FFFFFF"/>
+            </Poster>
         </Group>
     </children>
 </component>

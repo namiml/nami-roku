@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="CustomRowlist" extends="MarkupGrid">
+    <script type="text/brightscript" uri="CustomRowlist.brs"/>
+</component>

@@ -1,0 +1,14 @@
+ [
+    {
+      "key":"US Prod",
+      "value":"https://app-staging.namiml.com"
+    },
+    {
+      "key":"Localhost",
+      "value":"http://localhost:8080"
+    },
+    {
+      "key":"Custom",
+      "value":"custom"
+    }
+  ]
