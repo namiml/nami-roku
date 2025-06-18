@@ -1,0 +1,12 @@
+{
+  "uspod1": [
+    {
+      "key":"Stage Pod1",
+      "value":"STAGE_APP_PLATFORM_ID"
+    },
+    {
+      "key":"Prod Pod1",
+      "value":"PROD_APP_PLATFORM_ID"
+    }
+  ]
+}

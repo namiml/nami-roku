@@ -1,7 +1,14 @@
+package-lock.json
+Demo/source/data/nami_initial_config_onboarding.json
+Demo/source/data/nami_stg_onboarding_tv_flow.json
+Demo/source/data/games.json
 .DS_Store
 Demo/dist
 */.DS_Store
+Demo/source/lib/.DS_Store
 Demo/.DS_Store
 Demo/Source/.DS_Store
 Demo/source/paywallResponse.json
 Demo/source/data/initialConfig.json
+node_modules
+patches

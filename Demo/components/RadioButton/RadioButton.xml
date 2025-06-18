@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="RadioButton" extends="Group">
+  <script type="text/brightscript" uri="RadioButton.brs"/>
+  <interface>
+      <field id="radioOnOff" type="boolean" value="false" alwaysNotify="true" onChange="OnRadioOnOff"/>
+      <field id="radioLabel" type="string" alias="radioText.text"/>
+      <field id="value" type="array"/>
+      <field id="branchValue" type="string"/>
+  </interface>
+  <children>
+    <LayoutGroup id="gRadio" layoutDirection="horiz" itemSpacings="[10]">
+        <Poster id="turnOnOff" width="30" height="30" uri="pkg:/images/icons/Off.png"/>
+        <Label id="radioText" height="30" horizAlign="left" vertAlign="center" font="font:SmallestSystemFont"/>
+    </LayoutGroup>
+  </children>
+</component>

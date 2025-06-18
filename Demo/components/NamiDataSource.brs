@@ -1,4 +1,5 @@
 sub init()
+    print "init NamiDataSource"
     setupLocals()
     initializeNamiSDKValues()
 end sub
@@ -8,6 +9,7 @@ sub setupLocals()
     m.namiManager = m.scene.namiManager
     m.namiCustomerManager = m.namiManager.namiCustomerManager
     m.namiCampaignManager = m.namiManager.namiCampaignManager
+    m.namiFlowManager = m.namiManager.namiFlowManager
     m.namiPaywallManager = m.namiManager.namiPaywallManager
     m.namiPurchaseManager = m.namiManager.namiPurchaseManager
     m.namiEntitlementManager = m.namiManager.namiEntitlementManager
@@ -15,6 +17,10 @@ sub setupLocals()
 end sub
 
 sub initializeNamiSDKValues()
+    ' m.namiCustomerManager.setCustomerAttribute("firstName", "Vidhi")
+    ' m.namiCustomerManager.setCustomerAttribute("email", "vidhi@hexabrain.com")
+
+
     m.top.isLoggedIn = m.namiCustomerManager.callFunc("isLoggedIn")
     m.top.loggedInId = m.namiCustomerManager.callFunc("loggedInId")
     m.top.deviceId = m.namiCustomerManager.callFunc("deviceId")
@@ -30,6 +36,8 @@ sub initializeNamiSDKValues()
     m.namiCustomerManager.callFunc("registerAccountStateHandler", m.top)
     m.namiCustomerManager.callFunc("setCustomerDataPlatformId", "aaaa")
     m.namiPurchaseManager.callFunc("registerPurchasesChangedHandler", m.top, "OnPurchaseResultChanged")
+    m.namiFlowManager.callFunc("registerStepHandoff", m.top)
+    m.namiFlowManager.callFunc("registerEventHandler", m.top)
 end sub
 
 function registerRestoreHandlerCallback()
@@ -42,6 +50,66 @@ function registerSignInHandlerCallback()
     ' Sign in process
     m.namiPaywallManager.callFunc("dismiss")
     print "NamiDataSource : registerSignInHandlerCallback: sign in pressed"
+end function
+
+function registerStepHandoffCallback(handoffTag, handoffData)
+    ' Step handoff process
+    print "NamiDataSource : registerStepHandoffCallback : handoffTag : " handoffTag " handoffData : " handoffData
+
+    if handoffTag = "push" then
+        ' Roku does not support push notifications like iOS.
+        m.namiFlowManager.callFunc("resume")
+
+    else if handoffTag = "location" then
+        ' Roku does not support location authorization like iOS.
+        m.namiFlowManager.callFunc("resume")
+
+    else if handoffTag = "deeplink" then
+        m.namiFlowManager.callFunc("resume")
+
+    else if handoffTag = "complete" then
+        setCustomerAttributes(handoffData)
+        ' m.namiCustomerManager.callFunc("setCustomerAttribute", "onboardingComplete", "true")
+        m.namiFlowManager.callFunc("resume")
+    else
+        print "Unhandled Nami Flow handoff " + handoffTag
+    end if
+
+end function
+
+function registerEventHandlerCallback(event)
+    for each key in event
+        value = event[key]
+        stringValue = ""
+        if type(value) = "roBoolean" then
+            stringValue = value.ToStr()
+        else if type(value) = "roInt" or type(value) = "roFloat" then
+            stringValue = value.ToStr()
+        else if type(value) = "roString" then
+            stringValue = value
+        else if Type(value) = "roAssociativeArray" then
+            stringValue = associativeArrayToString(value)
+        else
+            print "Unsupported value for key '" + key + "': " + type(value)
+        end if
+
+        print "registerEventHandlerCallback:: " + key + " " + stringValue
+    end for
+end function
+
+function associativeArrayToString(obj as object) as string
+    str = "{"
+    for each key in obj
+        str = str + key.ToStr() + ": " + obj[key].ToStr() + ", "
+    end for
+
+    if str.len() > 1
+        ' Remove trailing comma and space
+        str = Left(str, str.len() - 2)
+    end if
+
+    str = str + "}"
+    return str
 end function
 
 function deeplinkActionHandlerCallback(url)
@@ -72,8 +140,8 @@ end sub
 sub showPurchaseDialog(skuDetail)
     m.purchaseDialog = createObject("roSgNode", "StandardMessageDialog")
     m.purchaseDialog.title = "Success"
-    m.purchaseDialog.message = [ "You have successfully purchased " + skuDetail.name]
-    m.purchaseDialog.buttons = [ "Ok"]
+    m.purchaseDialog.message = ["You have successfully purchased " + skuDetail.name]
+    m.purchaseDialog.buttons = ["Ok"]
 
     ' observe the dialog's buttonSelected field to handle button selections
     m.purchaseDialog.observeFieldScoped("buttonSelected", "onButtonSelected")
@@ -156,7 +224,7 @@ function onAccountStateChanged(state, isSuccess, error)
         else if state = 5
             print "ERROR: clearing vendor id: "; error.message
         else if state = 6
-            print "ERROR: in setting cdp id: "; error.message
+            print "ERROR: in setting cdp id: "; error
         else if state = 7
             print "ERROR: in clearing dp id: "; error.message
         end if
@@ -172,4 +240,28 @@ end function
 function OnPurchaseResultChanged(purchase)
     print "NamiDataSource : In OnPurchaseResultChanged : " purchase
     print "NamiDataSource : transaction details in purchase : " purchase.transaction
+end function
+
+function setCustomerAttributes(handoffData as dynamic)
+    print "NamiDataSource : setCustomerAttributes : handoffData : " handoffData
+    if handoffData <> invalid
+        for each key in handoffData.keys()
+            value = handoffData[key]
+            stringValue = ""
+            if Type(value) = "roInt" or Type(value) = "Integer"
+                stringValue = value.ToStr()
+            else if Type(value) = "roString" or Type(value) = "String"
+                stringValue = value
+            else if Type(value) = "roBoolean" or Type(value) = "Boolean"
+                if value
+                    stringValue = "true"
+                else
+                    stringValue = "false"
+                end if
+            else
+                print "Unsupported value for key '" + key + "': " + Type(value)
+            end if
+            m.namiCustomerManager.callFunc("setCustomerAttribute", key, stringValue)
+        end for
+    end if
 end function

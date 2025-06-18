@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="CampaignItem" extends="Group">
+    <script type="text/brightscript" uri="CampaignItem.brs"/>
+
+    <interface>
+        <field id="width" type="float" />
+        <field id="height" type="float" />
+        <field id="itemContent" type="node" onChange="itemContentChanged"/>
+        <field id="focusPercent" type="float" onChange="focusPercentChanged" alwaysNotify="true"/>
+        <field id="itemHasFocus" type="boolean" onChange="itemHasFocusChanged" alwaysNotify="false"/>
+        <field id="rowListHasFocus" type="boolean" onChange="parentHasFocusChanged" alwaysNotify="false"/>
+        <field id="rowHasFocus" type="boolean" onChange="rowHasFocusChanged"/>
+        <field id="gridHasFocus" type="boolean" onChange="parentHasFocusChanged" alwaysNotify="false"/>
+    </interface>
+
+    <children>
+        <Poster id="background" uri="pkg:/images/rectangle.9.png">
+          <Poster id="pButton" height="75" blendColor="#404040" uri="pkg:/images/filled.9.png" visible="false">
+            <Label id="buttonText" height = "75" horizAlign="center" vertAlign="center" color="#FFFFFF"/>
+          </Poster>
+          <Label id="itemTitle" translation="[15,0]" width="535" height = "75" horizAlign="left" wrap="true" linespacing="0" maxlines="2" vertAlign="center" color="#000000" visible="false"/>
+        </Poster>
+    </children>
+ </component>

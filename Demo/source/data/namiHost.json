@@ -1,0 +1,14 @@
+ [
+    {
+      "key":"US Pod1",
+      "value":"https://app.namiml.com"
+    },
+    {
+      "key":"Localhost",
+      "value":"http://localhost:8080"
+    },
+    {
+      "key":"Custom",
+      "value":"custom"
+    }
+  ]

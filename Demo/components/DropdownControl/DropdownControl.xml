@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="DropdownControl" extends="Group">
+    <script type="text/brightscript" uri="DropdownControl.brs" />
+
+    <interface>
+        <field id="contentInfo" type="AssocArray" alwaysNotify="true" onChange="ItemContentInfoChanged"/>
+        <field id="selectedNode" type="Node" alwaysNotify="true"/>
+    </interface>
+
+    <children>
+        <Group id="gFilterContent" translation="[0,0]" visible = "true">
+            <Poster id="backgroundImage" width="62" height="62" uri="pkg:/images/focus/R16Filled_62px_fhd.9.png"/>
+            <MarkupGrid
+                id="filtersGrid"
+                translation="[0,0]"
+                itemComponentName="DropdownItemComponent"
+                numColumns="1"
+                numRows="5"
+                drawFocusFeedback = "false"
+                focusBitmapUri="pkg:/images/focus/R16T4_70px_fhd.9.png"
+                horizFocusAnimationStyle="floatingFocus"
+                vertFocusAnimationStyle="floatingFocus"
+                focusBitmapBlendColor="#E73348"
+                visible="true"/>
+        </Group>
+    </children>
+</component>

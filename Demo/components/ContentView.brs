@@ -1,12 +1,35 @@
 sub init()
+    print "init ContentView"
     m.scene = m.top.getScene()
-    m.navbar = m.top.findNode("navbar")
+    m.gTopMenu = m.top.findNode("gTopMenu")
+    m.pShade = m.top.findNode("pShade")
+    m.selectedPageTitle = m.top.findNode("selectedPageTitle")
     m.campaignViewControl = m.top.findNode("campaignViewControl")
     m.profileViewControl = m.top.findNode("profileViewControl")
     m.entitlementViewControl = m.top.findNode("entitlementViewControl")
-
-    m.navbarEntries = ["Campaigns", "Profile", "Entitlements"]
-    m.navbar.observeField("itemSelected","OnNavbarItemSelected")
+    m.selectedPageTitle.font = "font:MediumBoldSystemFont"
+    m.navbarEntries = {
+      "menuList": [
+          {
+              "_id": 1,
+              "title": "Campaigns",
+              "icon": "pkg:/images/goal.png",
+              "playlist_layout": "campaigns"
+          },
+          {
+              "_id": 2,
+              "title": "Profile",
+              "icon": "pkg:/images/user-50.png",
+              "playlist_layout": "profile"
+          },
+          {
+              "_id": 3,
+              "title": "Entitlements",
+              "icon": "pkg:/images/favorite-50.png",
+              "playlist_layout": "entitlements",
+          }
+      ]
+  }
 end sub
 
 sub onInitializeChanged(event as dynamic)
@@ -14,7 +37,7 @@ sub onInitializeChanged(event as dynamic)
     print "ContentView : onInitializeChanged : initialize : " initialize
     if initialize
         m.namiDataSource = m.top.CreateChild("NamiDataSource")
-        setNavbarItems()
+        createTopMenu()
         setInitialFocus()
     end if
 end sub
@@ -27,6 +50,7 @@ sub showCampaignView()
         m.campaignViewControl.initialize = true
     end if
     m.campaignViewControl.visible = true
+    m.selectedPageTitle.text = "Campaigns"
 end sub
 
 sub showProfileView()
@@ -37,6 +61,7 @@ sub showProfileView()
         m.profileViewControl.initialize = true
     end if
     m.profileViewControl.visible = true
+    m.selectedPageTitle.text = "Profile"
 end sub
 
 sub showEntitlementView()
@@ -47,28 +72,47 @@ sub showEntitlementView()
         m.entitlementViewControl.initialize = true
     end if
     m.entitlementViewControl.visible = true
+    m.selectedPageTitle.text = "Entitlements"
 end sub
 
-sub setNavbarItems()
-    navbarContent = createObject("roSGNode","ContentNode")
-    for each item in m.navbarEntries
-        navbarItem = navbarContent.createChild("NavbarContent")
-        navbarItem.title = item
-        navbarItem.isSelected = false
-    end for
-    m.navbar.content = navbarContent
-    m.navbar.translation = [(1920 - m.navbar.boundingRect().width)/2, 70]
+sub createTopMenu()
+    if (m.topMenu <> invalid)
+        m.gTopMenu.removeChild(m.topMenu)
+    end if
+    m.topMenu = m.gTopMenu.createChild("CustomMenuList")
+    m.topMenu.id = "Menu"
+    m.topMenu.MenuFocusedHeight = 5
+    m.topMenu.MenuFocusedWidth = 100
+    m.topMenu.observeField("rowitemFocused", "onTopMenuItemFocused")
+    m.topMenu.observeField("customRowItemSelected", "OnNavbarItemSelected")
+    m.topMenu.observeField("keyPress", "OnMenuKeyPress")
+    m.topMenu.SetFirstItemSelected = false
+    m.topMenu.selectedMenu = "home"
+    m.topMenu.MenuItems = m.navbarEntries.menuList
+    m.pShade.translation = [(1920 - m.pShade.width)/2, 50]
+    m.topMenu.translation = [0, 0]
+    m.focusMenuId = m.topMenu.id
 end sub
+
+function getSelectedMenu()
+    if m.topMenu <> invalid
+        index = [0, 0]
+        if m.topMenu.customRowItemSelected <> invalid
+            index = m.topMenu.customRowItemSelected
+        end if
+        selectedItem = m.topMenu.content.getChild(index[0]).getChild(index[1])
+        return selectedItem
+    end if
+    return invalid
+end function
 
 sub setInitialFocus()
-    m.navbar.setFocus(true)
-    m.navbar.itemSelected = 0
+    m.topMenu.setFocus(true)
+    m.topMenu.itemSelected = 0
 end sub
 
 sub OnNavbarItemSelected(event as dynamic)
-    index = event.getData()
-    itemSelected =  m.navbar.content.getChild(index)
-    updateSelectedItem(itemSelected.title)
+    itemSelected =  getSelectedMenu()
     if (itemSelected.title = "Campaigns")
         showCampaignView()
     else if (itemSelected.title = "Profile")
@@ -78,26 +122,15 @@ sub OnNavbarItemSelected(event as dynamic)
     end if
 end sub
 
-sub updateSelectedItem(selectedtTitle as String)
-    for index = 0 to m.navbar.content.getChildCount() - 1
-        child = m.navbar.content.getChild(index)
-        if child.title = selectedtTitle
-            child.isSelected = true
-        else
-            child.isSelected = false
-        end if
-    end for
-end sub
-
 function onKeyEvent(key as String, press as Boolean) as Boolean
     result = false
     if (press)
         print "ContentView : onKeyEvent : key = " key " press = " press
         if key = "up"
-            m.navbar.setFocus(true)
+            m.topMenu.setFocus(true)
             result = true
         else if key = "down"
-            if (m.navbar.hasFocus())
+            if (m.topMenu.hasFocus())
                 if (m.campaignViewControl.visible)
                     m.campaignViewControl.setFocus(true)
                 else if (m.profileViewControl.visible)

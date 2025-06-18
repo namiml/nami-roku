@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="PaywallLaunchContext" extends="Group">
+  <script type="text/brightscript" uri="pkg:/components/PaywallLaunchContext.brs" />
+
+  <interface>
+      <field id="paywallLabel" type="string" value="" onChange="onGetPaywallLabel"/>
+      <field id="launchContextSet" type="node"/>
+  </interface>
+
+  <children>
+      <Rectangle color="#000000" width="1920" height="1080"/>
+      <Label id="lTitle" text="Paywall Launch Context" width="1920" horizAlign="center" translation="[0, 50]" font="font:SmallBoldSystemFont"/>
+      <LayoutGroup id="toggleGrp" layoutDirection="vert" itemSpacings="[10]" translation="[150, 120]">
+          <LayoutGroup layoutDirection="vert" itemSpacings="[10]" vertAlignment="center">
+              <Label id="lhideMVPD" text="Hide MVPD Login" width="1620" horizAlign="center" font="font:SmallBoldSystemFont" />
+              <ToggleSwitch id="toggleSwitchHideLogin" toggleSwitchOn="false" rightLabel="Hide MVPD Login" leftLabel="None"/>
+          </LayoutGroup>
+          <LayoutGroup layoutDirection="vert" itemSpacings="[10]" vertAlignment="center">
+              <Label id="lproductGroup" text="Product Groups" width="1620" horizAlign="center" font="font:SmallBoldSystemFont" />
+              <ToggleSwitch id="toggleSwitchProduct" toggleSwitchOn="false" rightLabel="Use Product Groups" leftLabel="None"/>
+          </LayoutGroup>
+          <LayoutGroup id="lgProductGroups" layoutDirection="vert" itemSpacings="[5]" vertAlignment="center">
+          </LayoutGroup>
+          <LayoutGroup id="lgFlowPath" layoutDirection="vert" itemSpacings="[1]" vertAlignment="center">
+            <Label id="lFlowPath" text="Flow Path" width="1620" horizAlign="center" font="font:SmallBoldSystemFont" />
+                <LayoutGroup id="lgFlowPathButtons" layoutDirection="horiz" itemSpacings="[10]" vertAlignment="center"/>
+          </LayoutGroup>
+      </LayoutGroup>
+      <Poster id="pLaunchButton" height="75" blendColor="#404040" uri="pkg:/images/filled.9.png">
+          <Label id="buttonText" height="75" horizAlign="center" vertAlign="center" color="#FFFFFF"/>
+      </Poster>
+  </children>
+</component>

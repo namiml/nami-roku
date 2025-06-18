@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="DropdownItemComponent" extends="Group">
+    <script type="text/brightscript" uri="DropdownItemComponent.brs"/>
+
+    <interface>
+        <field id="width" type="float" onChange="onSizeChange"/>
+        <field id="height" type="float" onChange="onSizeChange"/>
+        <field id="itemContent" type="node" onChange="OnContentChange"/>
+        <field id="focusPercent" type="float" onChange="FocusPercentChanged" alwaysNotify="false"/>
+        <field id="lastFocusPercent" type="float" alwaysNotify="false"/>
+        <field id="itemHasFocus" type="boolean" onChange="ItemHasFocusChanged" alwaysNotify="false"/>
+        <field id="gridHasFocus" type="boolean" onChange="ParentHasFocusChanged" alwaysNotify="false"/>
+    </interface>
+
+    <children>
+        <Group id="filterContentGrp" translation="[0,4]">
+            <Poster id="selectedMark" uri="pkg:/images/focus/R16Filled_62px_fhd.9.png" width="297" height="70" translation="[0,0]" opacity="0" />
+            <Group id="iconTextGrp">
+                <Label id="lTitle" visible="true"  vertAlign="center" horizAlign="center"/>
+            </Group>
+            <Poster id="selectedMarkBack" uri="pkg:/images/focus/R16T2_56px_fhd.9.png" opacity="0" width="305" height="78" translation="[0,0]"/>
+        </Group>
+    </children>
+</component>

@@ -1,4 +1,5 @@
 sub init()
+    print "init ProfileView"
     m.scene = m.top.getScene()
     m.isFirstTime = false
     m.isActionInProcess = false
@@ -7,10 +8,11 @@ sub init()
     m.lUserInfo = m.top.findNode("lUserInfo")
     m.lJourneyState = m.top.findNode("lJourneyState")
     m.userAction = m.top.findNode("userAction")
+    m.buttonText = m.top.findNode("buttonText")
 
     m.top.observeField("visible", "onVisibleChange")
     m.top.observeField("focusedChild", "OnFocusedChildChange")
-    m.userAction.observeField("buttonSelected", "onButtonSelected")
+    m.userAction.observeField("focusedChild", "OnUserActionFocusedChildChange")
 end sub
 
 sub onInitializeChanged(event as dynamic)
@@ -38,18 +40,28 @@ sub OnFocusedChildChange()
     end if
 end sub
 
+sub OnUserActionFocusedChildChange()
+    if m.userAction.hasFocus()
+        m.userAction.blendColor = "#1374de"
+    else
+        m.userAction.blendColor = "#404040"
+    end if
+end sub
+
 sub updateProfileView()
     m.isActionInProcess = false
     m.lDeviceId.text = "Device ID: " + m.top.namiDataSource.deviceId
 
     if m.top.namiDataSource.isLoggedIn = true
-        m.userAction.text = "Logout"
+        m.buttonText.text = "Logout"
         m.lUserInfo.text = "Registered User: External ID: " + m.top.namiDataSource.loggedInId
-        m.userAction.minWidth = "210"
+        m.userAction.width = "210"
+        m.buttonText.width = "210"
     else
-        m.userAction.text = "Login"
+        m.buttonText.text = "Login"
         m.lUserInfo.text = "Anonymous User"
-        m.userAction.minWidth = "180"
+        m.userAction.width = "180"
+          m.buttonText.width = "180"
     end if
     userActionRect = m.userAction.boundingRect()
     centerx = (1920 - userActionRect.width) / 2
@@ -97,7 +109,9 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     if (press)
         print "ProfileView OnKeyEvent: press " press " key : " key
         if key = "OK"
-
+            if m.userAction.hasFocus()
+                onButtonSelected()
+            end if
         end if
     end if
 
