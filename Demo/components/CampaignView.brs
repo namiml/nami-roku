@@ -279,7 +279,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
                         m.namiPaywallManager.callFunc("setAppSuppliedVideoDetails", invalid)
                         m.asyncVideo1.visible = false
                     else
-                        m.namiPaywallManager.callFunc("setAppSuppliedVideoDetails", { url: ""https://cdn.namiml.com/brand/video/nami-ad-move-fast.mov, name: "app-supplied-video-2" })
+                        m.namiPaywallManager.callFunc("setAppSuppliedVideoDetails", { url: "https://cdn.namiml.com/brand/video/nami-ad-move-fast.mov", name: "app-supplied-video-2" })
                         m.asyncVideo1.visible = true
                     end if
                     m.asyncVideo.visible = false

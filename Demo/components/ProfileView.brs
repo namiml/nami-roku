@@ -50,7 +50,7 @@ end sub
 
 sub updateProfileView()
     m.isActionInProcess = false
-    m.lDeviceId.text = "Device ID: " + m.top.namiDataSource.deviceId
+    m.lDeviceId.text = "Device ID: " + m.namiCustomerManager.callFunc("deviceId")
 
     if m.top.namiDataSource.isLoggedIn = true
         m.buttonText.text = "Logout"
@@ -61,7 +61,7 @@ sub updateProfileView()
         m.buttonText.text = "Login"
         m.lUserInfo.text = "Anonymous User"
         m.userAction.width = "180"
-          m.buttonText.width = "180"
+        m.buttonText.width = "180"
     end if
     userActionRect = m.userAction.boundingRect()
     centerx = (1920 - userActionRect.width) / 2
@@ -104,7 +104,7 @@ sub onButtonSelected()
     end if
 end sub
 
-function onKeyEvent(key as String, press as Boolean) as Boolean
+function onKeyEvent(key as string, press as boolean) as boolean
     result = false
     if (press)
         print "ProfileView OnKeyEvent: press " press " key : " key
