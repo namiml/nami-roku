@@ -46,11 +46,18 @@ function registerRestoreHandlerCallback()
     print "NamiDataSource : registerRestoreHandlerCallback: restore pressed"
 end function
 
-function registerSignInHandlerCallback()
+sub registerSignInHandlerCallback()
     ' Sign in process
-    m.namiPaywallManager.callFunc("dismiss")
+    isPaywallOpen = m.namiPaywallManager.callFunc("isPaywallOpen")
+    if isPaywallOpen
+        m.namiPaywallManager.callFunc("dismiss")
+    else
+        deviceInfo = CreateObject("roDeviceInfo")
+        uuid = deviceInfo.GetRandomUUID()
+        m.namiCustomerManager.callFunc("login", uuid)
+    end if
     print "NamiDataSource : registerSignInHandlerCallback: sign in pressed"
-end function
+end sub
 
 function registerStepHandoffCallback(handoffTag, handoffData)
     ' Step handoff process
@@ -235,6 +242,11 @@ function paywallActionHandler(paywallAction as dynamic)
     print "NamiDataSource : In paywallActionHandler ---> "
     print paywallAction
     print "NamiDataSource : <--- "
+
+    if (paywallAction.action = "sign_in")
+        randomBool = (RND(2) = 1)
+        m.namiCustomerManager.callFunc("setCustomerAttribute", "currentSubscriber", randomBool)
+    end if
 end function
 
 function OnPurchaseResultChanged(purchase)
