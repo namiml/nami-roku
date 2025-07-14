@@ -28,6 +28,11 @@ sub configureNamiManager()
     ' Get SDK ready state before displaying campaign
     m.namiManager.observeField("namiStatus", "OnNamiStatusReceived")
 
+    ' Resetting this state
+    if (m.namiManager.namiCustomerManager <> invalid)
+        m.namiManager.namiCustomerManager.callFunc("setCustomerAttribute", "currentSubscriber", false)
+    end if
+
     m.namiManager.callFunc("configure", namiConfig)
 end sub
 
@@ -51,18 +56,21 @@ sub getNamiConfig() as object
     end if
 
     namiCommands = []
+    if m.global.appConfig.environment = "staging"
+        namiCommands = ["useStagingAPI"]
+    end if
 
     initialConfig = ReadAsciiFile(m.global.appConfig.namiInitialConfigFilePath)
     namiConfig = {
-                appPlatformId   : m.namiConfig.appPlatformId
-                fonts           : m.global.appConfig.fonts
-                environment     : m.global.appConfig.environment
-                logLevel        : m.namiConfig.logLevel
-                namiCommands    : namiCommands
-                namiHost        : m.namiConfig.namiHost
-                language        : m.namiConfig.language
-                initialConfig   : initialConfig
-            }
+        appPlatformId: m.namiConfig.appPlatformId
+        fonts: m.global.appConfig.fonts
+        environment: m.global.appConfig.environment
+        logLevel: m.namiConfig.logLevel
+        namiCommands: namiCommands
+        namiHost: m.namiConfig.namiHost
+        language: m.namiConfig.language
+        initialConfig: initialConfig
+    }
     return namiConfig
 end sub
 
