@@ -14,6 +14,7 @@ sub setupLocals()
     m.namiPurchaseManager = m.namiManager.namiPurchaseManager
     m.namiEntitlementManager = m.namiManager.namiEntitlementManager
     m.billing = createObject("RoSGNode", "RokuBillingTask")
+    m.contentViewControl = m.scene.findNode("contentViewControl")
 end sub
 
 sub initializeNamiSDKValues()
@@ -67,6 +68,16 @@ function registerStepHandoffCallback(handoffTag, handoffData)
         ' Roku does not support push notifications like iOS.
         m.namiFlowManager.callFunc("resume")
 
+    else if handoffTag = "buysku" then
+        if handoffData <> invalid then
+            skuData = handoffData.sku
+            if skuData <> invalid and Type(skuData) = "roSGNode" then
+                namiSku = skuData
+                if namiSku <> invalid then
+                    buySku(namiSku)
+                end if
+            end if
+        end if
     else if handoffTag = "location" then
         ' Roku does not support location authorization like iOS.
         m.namiFlowManager.callFunc("resume")
@@ -74,6 +85,8 @@ function registerStepHandoffCallback(handoffTag, handoffData)
     else if handoffTag = "deeplink" then
         m.namiFlowManager.callFunc("resume")
 
+    else if handoffTag = "signin" then
+        m.top.showSignIn = true
     else if handoffTag = "complete" then
         setCustomerAttributes(handoffData)
         ' m.namiCustomerManager.callFunc("setCustomerAttribute", "onboardingComplete", "true")
@@ -127,16 +140,23 @@ end function
 
 function registerBuySkuHandlerCallback(sku as dynamic)
     print "NamiDataSource : registerBuySkuHandlerCallback : sku : " sku
+    buySku(sku)
+end function
+
+sub buySku(sku as dynamic)
     m.top.sku = sku
 
     m.billing.observeField("purchaseResult", "OnPurchaseResultReceived")
     m.billing.purchase = sku.product
-end function
+end sub
 
 sub OnPurchaseResultReceived(event as dynamic)
     purchaseResult = event.getData()
     if purchaseResult <> invalid and purchaseResult.issuccess
-        m.namiPaywallManager.callFunc("dismiss")
+        flowOpen = m.namiFlowManager.callFunc("isFlowOpen")
+        if not flowOpen
+            m.namiPaywallManager.callFunc("dismiss")
+        end if
         m.top.purchaseResult = purchaseResult
         showPurchaseDialog(m.top.sku)
     else
@@ -202,6 +222,9 @@ function onAccountStateChanged(state, isSuccess, error)
     if isSuccess
         if state = 0
             print "success logging in"
+            m.top.showSignIn = false
+            m.namiCustomerManager.callFunc("setCustomerAttribute", "currentSubscriber", true)
+            m.namiFlowManager.callFunc("resume")
         else if state = 1
             print "success logging out"
         else if state = 2
@@ -242,11 +265,6 @@ function paywallActionHandler(paywallAction as dynamic)
     print "NamiDataSource : In paywallActionHandler ---> "
     print paywallAction
     print "NamiDataSource : <--- "
-
-    if (paywallAction.action = "sign_in")
-        randomBool = (RND(2) = 1)
-        m.namiCustomerManager.callFunc("setCustomerAttribute", "currentSubscriber", randomBool)
-    end if
 end function
 
 function OnPurchaseResultChanged(purchase)

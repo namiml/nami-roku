@@ -49,6 +49,7 @@
                 <Label text="to refresh" height="50" vertAlign="center" translation="[160,0]" color="#000000"/>
             </Group>
         </Poster>
-        <Label id="lVersion" font = "font:SmallestSystemFont" horizAlign="left" vertAlign="center" translation="[50,1020]"/>
+        <Label id="lVersion" font = "font:TinySystemFont" horizAlign="left" vertAlign="center" translation="[1280,780]"/>
+        <Label id="lNamiVersion" font = "font:TinySystemFont" horizAlign="left" vertAlign="center" translation="[1280,820]"/>
     </children>
 </component>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="SignInView" extends="Group">
+    <script type="text/brightscript" uri="pkg:/components/SignInView.brs" />
+
+    <interface>
+        <field id="namiDataSource" type="node" alwaysNotify="true"/>
+        <field id="initialize" type="boolean" value="false" alwaysNotify="true" onChange="onInitializeChanged"/>
+    </interface>
+
+    <children>
+        <Rectangle color="#808080" width="1920" height="1080"/>
+        <Group id="buttonGrp">
+            <!-- <Label id="lDeviceId" text="" horizAlign="center" vertAlign="center" width="1920" height="100" translation="[0, 100]"/>
+            <Label id="lUserInfo" text="" horizAlign="center" vertAlign="center" width="1920" height="100" translation="[0, 200]"/>
+            <Label id="lJourneyState" text="" horizAlign="center" vertAlign="center" width="1920" height="780" translation="[0, 300]" /> -->
+            <Poster id="userActionLogin" width="410" height="75" blendColor="#404040" uri="pkg:/images/filled.9.png">
+              <Label id="buttonTextLogin" text="Login with random UUID" width="410" height="75" horizAlign="center" vertAlign="center" color="#FFFFFF"/>
+            </Poster>
+            <Poster id="userActionIgnore" width="210" height="75" blendColor="#404040" uri="pkg:/images/filled.9.png" translation="[100, 120]">
+              <Label id="buttonTextIgnore" text="Don't login" width="210" height="75" horizAlign="center" vertAlign="center" color="#FFFFFF"/>
+            </Poster>
+        </Group>
+    </children>
+</component>
