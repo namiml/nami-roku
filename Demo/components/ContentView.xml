@@ -4,7 +4,7 @@
 
   <interface>
     <field id="initialize" type="boolean" value="false" alwaysNotify="true" onChange="onInitializeChanged"/>
-    <field id="menuWidth" type="integer" alwaysNotify="true" onChange="onMenuWidthChanged"/>
+    <field id="menuWidth" type="integer" alwaysNotify="true"/>
   </interface>
 
   <children>
@@ -15,5 +15,6 @@
     <CampaignView id="campaignViewControl" visible="false"/>
     <ProfileView id="profileViewControl" visible="false"/>
     <EntitlementView id="entitlementViewControl" visible="false"/>
+    <SignInView id="signinViewControl" visible="false"/>
   </children>
 </component>

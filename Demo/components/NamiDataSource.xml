@@ -14,6 +14,8 @@
         <field id="purchaseResult" type="assocArray"/>
 
         <field id="isUpdated" type="boolean" alwaysNotify="true"/>
+        <field id="showSignIn" type="boolean" alwaysNotify="true"/>
+
 
         <function name="registerBuySkuHandlerCallback" />
         <function name='onAccountStateChanged' />

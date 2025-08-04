@@ -50,6 +50,10 @@ sub getNamiConfig() as object
         end if
     end if
 
+    ' TODO: REMOVE THIS
+    ' Force anonymous mode for testing purposes
+    m.namiManager.forceAnonymousMode = false
+
     appPlatformId = m.global.appConfig.appPlatformIdProduction
     if m.global.appConfig.environment = "staging"
         appPlatformId = m.global.appConfig.appPlatformIdStaging

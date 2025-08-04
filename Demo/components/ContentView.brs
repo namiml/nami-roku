@@ -7,29 +7,30 @@ sub init()
     m.campaignViewControl = m.top.findNode("campaignViewControl")
     m.profileViewControl = m.top.findNode("profileViewControl")
     m.entitlementViewControl = m.top.findNode("entitlementViewControl")
+    m.signinViewControl = m.top.findNode("signinViewControl")
     m.selectedPageTitle.font = "font:MediumBoldSystemFont"
     m.navbarEntries = {
-      "menuList": [
-          {
-              "_id": 1,
-              "title": "Campaigns",
-              "icon": "pkg:/images/goal.png",
-              "playlist_layout": "campaigns"
-          },
-          {
-              "_id": 2,
-              "title": "Profile",
-              "icon": "pkg:/images/user-50.png",
-              "playlist_layout": "profile"
-          },
-          {
-              "_id": 3,
-              "title": "Entitlements",
-              "icon": "pkg:/images/favorite-50.png",
-              "playlist_layout": "entitlements",
-          }
-      ]
-  }
+        "menuList": [
+            {
+                "_id": 1,
+                "title": "Campaigns",
+                "icon": "pkg:/images/goal.png",
+                "playlist_layout": "campaigns"
+            },
+            {
+                "_id": 2,
+                "title": "Profile",
+                "icon": "pkg:/images/user-50.png",
+                "playlist_layout": "profile"
+            },
+            {
+                "_id": 3,
+                "title": "Entitlements",
+                "icon": "pkg:/images/favorite-50.png",
+                "playlist_layout": "entitlements",
+            }
+        ]
+    }
 end sub
 
 sub onInitializeChanged(event as dynamic)
@@ -37,6 +38,7 @@ sub onInitializeChanged(event as dynamic)
     print "ContentView : onInitializeChanged : initialize : " initialize
     if initialize
         m.namiDataSource = m.top.CreateChild("NamiDataSource")
+        m.namiDataSource.observeField("showSignIn", "onShowSignInChanged")
         createTopMenu()
         setInitialFocus()
     end if
@@ -75,6 +77,15 @@ sub showEntitlementView()
     m.selectedPageTitle.text = "Entitlements"
 end sub
 
+sub onShowSignInChanged(event as dynamic)
+    isShow = event.getData()
+    if (isShow)
+        m.signinViewControl.namiDataSource = m.namiDataSource
+        m.signinViewControl.initialize = true
+    end if
+    m.signinViewControl.visible = isShow
+end sub
+
 sub createTopMenu()
     if (m.topMenu <> invalid)
         m.gTopMenu.removeChild(m.topMenu)
@@ -89,7 +100,7 @@ sub createTopMenu()
     m.topMenu.SetFirstItemSelected = false
     m.topMenu.selectedMenu = "home"
     m.topMenu.MenuItems = m.navbarEntries.menuList
-    m.pShade.translation = [(1920 - m.pShade.width)/2, 50]
+    m.pShade.translation = [(1920 - m.pShade.width) / 2, 50]
     m.topMenu.translation = [0, 0]
     m.focusMenuId = m.topMenu.id
 end sub
@@ -112,7 +123,7 @@ sub setInitialFocus()
 end sub
 
 sub OnNavbarItemSelected(event as dynamic)
-    itemSelected =  getSelectedMenu()
+    itemSelected = getSelectedMenu()
     if (itemSelected.title = "Campaigns")
         showCampaignView()
     else if (itemSelected.title = "Profile")
@@ -122,7 +133,7 @@ sub OnNavbarItemSelected(event as dynamic)
     end if
 end sub
 
-function onKeyEvent(key as String, press as Boolean) as Boolean
+function onKeyEvent(key as string, press as boolean) as boolean
     result = false
     if (press)
         print "ContentView : onKeyEvent : key = " key " press = " press

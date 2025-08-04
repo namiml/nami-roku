@@ -9,6 +9,7 @@ sub init()
     m.llCampaign = m.top.findNode("llCampaign")
     m.lNoItems = m.top.findNode("lNoItems")
     m.lVersion = m.top.findNode("lVersion")
+    m.lNamiVersion = m.top.findNode("lNamiVersion")
     m.pvButton = m.top.findNode("pvButton")
     m.pv1Button = m.top.findNode("pv1Button")
     m.asyncVideo = m.top.findNode("asyncVideo")
@@ -32,8 +33,11 @@ sub onInitializeChanged(event as dynamic)
         m.namiCustomerManager = m.scene.namiManager.namiCustomerManager
         m.namiCampaignManager = m.scene.namiManager.namiCampaignManager
     end if
-    if m.scene.namiManager <> invalid and m.scene.namiManager.namiSDKVersion <> invalid
-        m.lVersion.text = "NAMI SDK Version : " + m.scene.namiManager.namiSDKVersion
+    if m.scene.namiManager <> invalid
+        namiRokuSDKVersion = m.scene.namiManager.callFunc("namiRokuSDKVersion")
+        namiVersion = m.scene.namiManager.callFunc("namiVersion")
+        m.lVersion.text = "NAMI SDK Version : " + namiRokuSDKVersion
+        m.lNamiVersion.text = "NAMI Version : " + namiVersion
     end if
 end sub
 
